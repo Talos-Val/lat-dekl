@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Lateinische Deklination – Meister der Fälle</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #F0C040;
+    --gold-dark: #C8960C;
+    --marble: #F5F0E8;
+    --stone: #3A2E1E;
+    --terracotta: #C0522A;
+    --terracotta-light: #E8703A;
+    --laurel: #4A7A3A;
+    --laurel-light: #6AAA50;
+    --sky: #3A6EA8;
+    --sky-light: #5A9ADB;
+    --purple: #7A3A9A;
+    --purple-light: #AB5ADB;
+    --parchment: #EDE0C4;
+    --parchment-dark: #D4C09A;
+    --ink: #2A1E0E;
+    --shadow: rgba(42,30,14,0.18);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--stone);
+    color: var(--marble);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(192,82,42,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(74,122,58,0.15) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* === HEADER === */
+  header {
+    text-align: center;
+    padding: 28px 20px 18px;
+    position: relative;
+  }
+  header::after {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin-top: 18px;
+  }
+  .header-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(240,192,64,0.5), 0 2px 8px rgba(0,0,0,0.5);
+    letter-spacing: 0.04em;
+  }
+  .header-sub {
+    font-size: 0.85rem;
+    color: var(--parchment-dark);
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* === NAV === */
+  nav {
+    display: flex;
+    gap: 8px;
+    padding: 0 16px 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 10px 18px;
+    border: 2px solid var(--gold-dark);
+    border-radius: 50px;
+    background: transparent;
+    color: var(--parchment);
+    cursor: pointer;
+    transition: all 0.22s;
+    white-space: nowrap;
+    letter-spacing: 0.06em;
+    user-select: none;
+  }
+  .nav-btn.active, .nav-btn:active {
+    background: var(--gold);
+    color: var(--stone);
+    border-color: var(--gold);
+    transform: scale(0.97);
+    box-shadow: 0 4px 16px rgba(240,192,64,0.35);
+  }
+
+  /* === SECTIONS === */
+  .section { display: none; padding: 0 16px 40px; animation: fadeIn 0.35s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* === CARDS === */
+  .card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(240,192,64,0.2);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(4px);
+  }
+  .card-title {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .icon { font-size: 1.2em; }
+
+  /* === TABLES === */
+  .decl-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .decl-tab {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    padding: 7px 14px;
+    border-radius: 50px;
+    border: 1.5px solid rgba(240,192,64,0.4);
+    background: transparent;
+    color: var(--parchment);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .decl-tab.active {
+    background: var(--terracotta);
+    border-color: var(--terracotta-light);
+    color: white;
+    box-shadow: 0 3px 10px rgba(192,82,42,0.4);
+  }
+  .table-wrap { overflow-x: auto; border-radius: var(--radius-sm); }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 320px;
+  }
+  thead tr { background: rgba(192,82,42,0.55); }
+  th {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    padding: 9px 10px;
+    color: var(--gold);
+    letter-spacing: 0.07em;
+    text-align: center;
+    border-bottom: 2px solid var(--gold-dark);
+  }
+  th:first-child { text-align: left; }
+  td {
+    padding: 8px 10px;
+    text-align: center;
+    font-size: 0.88rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.15s;
+  }
+  td:first-child { text-align: left; font-weight: 700; color: var(--parchment-dark); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.03); }
+  .ending { color: var(--terracotta-light); font-weight: 800; }
+  .sg { color: var(--parchment); }
+  .pl { color: var(--sky-light); }
+
+  /* === TIPS === */
+  .tip-grid { display: grid; gap: 14px; }
+  .tip-card {
+    border-radius: var(--radius);
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .tip-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background: var(--tip-color, var(--gold));
+    pointer-events: none;
+  }
+  .tip-card { border: 1.5px solid var(--tip-color, var(--gold)); }
+  .tip-num {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--tip-color, var(--gold));
+    opacity: 0.25;
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    line-height: 1;
+  }
+  .tip-head {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--tip-color, var(--gold));
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .tip-body { font-size: 0.85rem; line-height: 1.6; color: var(--parchment); }
+  .tip-body strong { color: var(--gold); }
+  .tip-body em { color: var(--terracotta-light); font-style: normal; font-weight: 700; }
+
+  /* Mnemonic badge */
+  .mnemonic {
+    display: inline-block;
+    background: rgba(240,192,64,0.15);
+    border: 1px solid var(--gold-dark);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.82rem;
+    margin-top: 8px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  /* === QUIZ === */
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+  .quiz-score-box {
+    background: rgba(240,192,64,0.12);
+    border: 1.5px solid var(--gold-dark);
+    border-radius: 50px;
+    padding: 6px 16px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .progress-bar-wrap {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--terracotta), var(--gold));
+    border-radius: 50px;
+    transition: width 0.4s ease;
+  }
+
+  .quiz-word-card {
+    background: linear-gradient(135deg, rgba(192,82,42,0.18), rgba(42,30,14,0.3));
+    border: 2px solid var(--terracotta);
+    border-radius: var(--radius);
+    padding: 28px 20px;
+    text-align: center;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .quiz-word-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(240,192,64,0.08), transparent 70%);
+  }
+  .word-label {
+    font-size: 0.72rem;
+    color: var(--parchment-dark);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .word-display {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 7vw, 3.2rem);
+    font-weight: 900;
+    color: var(--marble);
+    text-shadow: 0 0 20px rgba(240,192,64,0.3);
+    line-height: 1.1;
+  }
+  .word-hint {
+    font-size: 0.78rem;
+    color: var(--parchment-dark);
+    margin-top: 6px;
+    opacity: 0.7;
+  }
+
+  .quiz-question {
+    font-size: 0.88rem;
+    color: var(--parchment);
+    text-align: center;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+
+  /* Answer buttons */
+  .answers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .answer-btn {
+    background: rgba(255,255,255,0.06);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius-sm);
+    padding: 14px 10px;
+    color: var(--marble);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: center;
+    line-height: 1.3;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+  }
+  .answer-btn:active { transform: scale(0.96); }
+  .answer-btn.correct {
+    background: rgba(74,122,58,0.35);
+    border-color: var(--laurel-light);
+    color: #B4F0A0;
+    animation: correctPulse 0.4s ease;
+  }
+  .answer-btn.wrong {
+    background: rgba(192,82,42,0.35);
+    border-color: var(--terracotta-light);
+    color: #FFB4A0;
+    animation: shake 0.35s ease;
+  }
+  @keyframes correctPulse {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    60% { transform: translateX(6px); }
+  }
+
+  /* Feedback */
+  .feedback-box {
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    display: none;
+    animation: fadeIn 0.25s ease;
+  }
+  .feedback-box.show { display: block; }
+  .feedback-box.ok { background: rgba(74,122,58,0.25); border: 1.5px solid var(--laurel); color: #C8F0B8; }
+  .feedback-box.nope { background: rgba(192,82,42,0.25); border: 1.5px solid var(--terracotta); color: #FFD4C8; }
+  .feedback-title { font-weight: 800; margin-bottom: 4px; font-size: 0.95rem; }
+
+  .next-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--stone);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 15px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(240,192,64,0.3);
+    display: none;
+  }
+  .next-btn.show { display: block; }
+  .next-btn:active { transform: scale(0.98); }
+
+  /* Mode select */
+  .mode-grid {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .mode-card {
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    user-select: none;
+  }
+  .mode-card:active { transform: scale(0.98); }
+  .mode-card.selected { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(240,192,64,0.18); }
+  .mode-icon { font-size: 2rem; flex-shrink: 0; }
+  .mode-info h3 { font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--gold); margin-bottom: 3px; }
+  .mode-info p { font-size: 0.78rem; color: var(--parchment-dark); line-height: 1.4; }
+  .mode-1 { background: linear-gradient(135deg, rgba(192,82,42,0.2), rgba(192,82,42,0.05)); }
+  .mode-2 { background: linear-gradient(135deg, rgba(74,122,58,0.2), rgba(74,122,58,0.05)); }
+  .mode-3 { background: linear-gradient(135deg, rgba(122,58,154,0.2), rgba(122,58,154,0.05)); }
+
+  .start-quiz-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--terracotta), var(--terracotta-light));
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 16px;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    box-shadow: 0 6px 20px rgba(192,82,42,0.4);
+    transition: all 0.2s;
+  }
+  .start-quiz-btn:active { transform: scale(0.98); }
+
+  /* Result screen */
+  .result-screen {
+    text-align: center;
+    padding: 20px 0;
+    display: none;
+  }
+  .result-screen.show { display: block; animation: fadeIn 0.4s ease; }
+  .result-emoji { font-size: 4rem; margin-bottom: 12px; display: block; }
+  .result-title { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); margin-bottom: 8px; }
+  .result-score { font-size: 3rem; font-weight: 900; color: var(--marble); margin: 12px 0; }
+  .result-msg { font-size: 0.9rem; color: var(--parchment-dark); margin-bottom: 24px; line-height: 1.5; }
+  .result-stars { font-size: 2rem; margin-bottom: 16px; letter-spacing: 4px; }
+  .restart-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--stone);
+    border: none;
+    border-radius: 50px;
+    padding: 14px 32px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    box-shadow: 0 4px 16px rgba(240,192,64,0.4);
+  }
+
+  /* Streak badge */
+  .streak { display: inline-flex; align-items: center; gap: 5px; background: rgba(240,192,64,0.15); border: 1px solid var(--gold-dark); border-radius: 50px; padding: 4px 12px; font-size: 0.78rem; color: var(--gold); font-weight: 700; }
+
+  /* === NEW MULTI-SELECT QUIZ UI === */
+  .selector-section { margin-bottom: 14px; }
+  .selector-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .selector-row {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+  .sel-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 9px 14px;
+    border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+    color: var(--parchment);
+    cursor: pointer;
+    transition: all 0.18s;
+    user-select: none;
+    min-width: 44px;
+    text-align: center;
+    position: relative;
+  }
+  .sel-btn:active { transform: scale(0.93); }
+  .sel-btn.selected {
+    border-color: var(--sel-color, var(--gold));
+    background: color-mix(in srgb, var(--sel-color, var(--gold)) 22%, transparent);
+    color: white;
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--sel-color, var(--gold)) 40%, transparent);
+  }
+  .sel-btn.correct-highlight {
+    border-color: var(--laurel-light) !important;
+    background: rgba(74,122,58,0.35) !important;
+    color: #B4F0A0 !important;
+    animation: correctPulse 0.4s ease;
+  }
+  .sel-btn.wrong-highlight {
+    border-color: var(--terracotta-light) !important;
+    background: rgba(192,82,42,0.35) !important;
+    color: #FFB4A0 !important;
+    animation: shake 0.35s ease;
+  }
+  .sel-btn.missed-highlight {
+    border-color: var(--gold) !important;
+    background: rgba(240,192,64,0.18) !important;
+    color: var(--gold) !important;
+  }
+  .check-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--sky), var(--sky-light));
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 15px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(58,110,168,0.3);
+    margin-top: 6px;
+  }
+  .check-btn:active { transform: scale(0.98); }
+  .check-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .selector-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(240,192,64,0.2), transparent);
+    margin: 12px 0;
+  }
+
+  /* Kasus split-column layout */
+  .kasus-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .kasus-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .kasus-col-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    color: var(--parchment-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(240,192,64,0.15);
+    margin-bottom: 2px;
+  }
+  .kasus-col .sel-btn {
+    width: 100%;
+    font-size: 0.78rem;
+    padding: 8px 6px;
+    min-height: 38px;
+  }
+
+  /* === OVERVIEW section === */
+  .overview-grid { display: grid; gap: 14px; }
+  .ov-card {
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    user-select: none;
+  }
+  .ov-card:active { transform: scale(0.98); }
+  .ov-card-num {
+    font-family: 'Cinzel', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    position: absolute;
+    right: 12px;
+    top: 4px;
+    opacity: 0.12;
+    color: white;
+    line-height: 1;
+  }
+  .ov-card h3 { font-family: 'Cinzel', serif; font-size: 1rem; margin-bottom: 5px; }
+  .ov-card p { font-size: 0.8rem; opacity: 0.8; line-height: 1.4; }
+  .ov-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    padding: 2px 10px;
+    border-radius: 50px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .d1 { background: linear-gradient(135deg, rgba(192,82,42,0.3),rgba(192,82,42,0.1)); border-color: var(--terracotta); }
+  .d1 h3, .d1 .ov-badge { color: var(--terracotta-light); }
+  .d1 .ov-badge { background: rgba(192,82,42,0.3); }
+  .d2 { background: linear-gradient(135deg, rgba(74,122,58,0.3),rgba(74,122,58,0.1)); border-color: var(--laurel); }
+  .d2 h3, .d2 .ov-badge { color: var(--laurel-light); }
+  .d2 .ov-badge { background: rgba(74,122,58,0.3); }
+  .d3 { background: linear-gradient(135deg, rgba(58,110,168,0.3),rgba(58,110,168,0.1)); border-color: var(--sky); }
+  .d3 h3, .d3 .ov-badge { color: var(--sky-light); }
+  .d3 .ov-badge { background: rgba(58,110,168,0.3); }
+  .d4 { background: linear-gradient(135deg, rgba(122,58,154,0.3),rgba(122,58,154,0.1)); border-color: var(--purple); }
+  .d4 h3, .d4 .ov-badge { color: var(--purple-light); }
+  .d4 .ov-badge { background: rgba(122,58,154,0.3); }
+  .d5 { background: linear-gradient(135deg, rgba(168,138,58,0.3),rgba(168,138,58,0.1)); border-color: var(--gold-dark); }
+  .d5 h3, .d5 .ov-badge { color: var(--gold); }
+  .d5 .ov-badge { background: rgba(168,138,58,0.3); }
+
+  /* Fälle-erklärung boxes */
+  .case-grid { display: grid; gap: 10px; }
+  .case-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: rgba(255,255,255,0.04);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    border-left: 3px solid var(--case-color, var(--gold));
+  }
+  .case-abbr {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: var(--case-color, var(--gold));
+    min-width: 36px;
+    margin-top: 1px;
+  }
+  .case-info h4 { font-size: 0.85rem; font-weight: 700; color: var(--marble); margin-bottom: 2px; }
+  .case-info p { font-size: 0.78rem; color: var(--parchment-dark); line-height: 1.4; }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.08em;
+  }
+
+  /* Quiz area show/hide */
+  #quizSetup, #quizPlay { }
+  #quizPlay { display: none; }
+
+  /* Responsive */
+  @media (min-width: 500px) {
+    .answers-grid { grid-template-columns: 1fr 1fr; }
+    .tip-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 700px) {
+    nav { justify-content: center; }
+    .mode-grid { grid-template-columns: 1fr 1fr 1fr; }
+    body { max-width: 720px; margin: 0 auto; }
+    .overview-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">⚔️ Magister Declinationis</div>
+  <div class="header-sub">Meistere die lateinischen Deklinationen</div>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="showSection('overview', this)">📜 Übersicht</button>
+  <button class="nav-btn" onclick="showSection('tables', this)">📋 Tabellen</button>
+  <button class="nav-btn" onclick="showSection('tips', this)">💡 Lerntipps</button>
+  <button class="nav-btn" onclick="showSection('quiz', this)">⚡ Quiz</button>
+</nav>
+
+<!-- ================ ÜBERSICHT ================ -->
+<section id="overview" class="section active">
+  <div class="card">
+    <div class="card-title"><span class="icon">🏛️</span> Die 6 Fälle (Kasus)</div>
+    <div class="case-grid">
+      <div class="case-item" style="--case-color:#F0C040">
+        <div class="case-abbr">Nom.</div>
+        <div class="case-info"><h4>Nominativ – Wer/Was?</h4><p>Das Subjekt – wer handelt im Satz.</p></div>
+      </div>
+      <div class="case-item" style="--case-color:#E8703A">
+        <div class="case-abbr">Gen.</div>
+        <div class="case-info"><h4>Genitiv – Wessen?</h4><p>Zugehörigkeit, z.B. „des Vaters".</p></div>
+      </div>
+      <div class="case-item" style="--case-color:#5A9ADB">
+        <div class="case-abbr">Dat.</div>
+        <div class="case-info"><h4>Dativ – Wem?</h4><p>Indirektes Objekt, z.B. „dem Schüler".</p></div>
+      </div>
+      <div class="case-item" style="--case-color:#AB5ADB">
+        <div class="case-abbr">Akk.</div>
+        <div class="case-info"><h4>Akkusativ – Wen/Was?</h4><p>Direktes Objekt, Ziel einer Handlung.</p></div>
+      </div>
+      <div class="case-item" style="--case-color:#6AAA50">
+        <div class="case-abbr">Abl.</div>
+        <div class="case-info"><h4>Ablativ – Womit/Wodurch?</h4><p>Mittel, Begleitung, Ort, Trennung.</p></div>
+      </div>
+      <div class="case-item" style="--case-color:#C8960C">
+        <div class="case-abbr">Vok.</div>
+        <div class="case-info"><h4>Vokativ – O ...!</h4><p>Anrede, z.B. „O Caesar!" (selten anders).</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📚</span> Die 5 Deklinationen</div>
+    <div class="overview-grid">
+      <div class="ov-card d1" onclick="showDeclension(1)">
+        <div class="ov-card-num">I</div>
+        <div class="ov-badge">1. Deklination</div>
+        <h3>a-Deklination</h3>
+        <p>puella, -ae (f.) · meist feminin · Endung -a</p>
+      </div>
+      <div class="ov-card d2" onclick="showDeclension(2)">
+        <div class="ov-card-num">II</div>
+        <div class="ov-badge">2. Deklination</div>
+        <h3>o-Deklination</h3>
+        <p>servus, -i (m.) · meist maskulin & neutrum</p>
+      </div>
+      <div class="ov-card d3" onclick="showDeclension(3)">
+        <div class="ov-card-num">III</div>
+        <div class="ov-badge">3. Deklination</div>
+        <h3>Konsonant- & i-Stämme</h3>
+        <p>rex, regis (m.) · alle Geschlechter</p>
+      </div>
+      <div class="ov-card d4" onclick="showDeclension(4)">
+        <div class="ov-card-num">IV</div>
+        <div class="ov-badge">4. Deklination</div>
+        <h3>u-Deklination</h3>
+        <p>manus, -us (f.) · meist maskulin</p>
+      </div>
+      <div class="ov-card d5" onclick="showDeclension(5)">
+        <div class="ov-card-num">V</div>
+        <div class="ov-badge">5. Deklination</div>
+        <h3>e-Deklination</h3>
+        <p>res, rei (f.) · meist feminin · selten</p>
+      </div>
+    </div>
+    <p style="font-size:0.75rem;color:var(--parchment-dark);margin-top:12px;text-align:center;">👆 Tippe auf eine Deklination, um die Tabelle zu öffnen</p>
+  </div>
+</section>
+
+<!-- ================ TABELLEN ================ -->
+<section id="tables" class="section">
+  <div class="card">
+    <div class="card-title"><span class="icon">📋</span> Deklinationstabellen</div>
+    <div class="decl-tabs">
+      <button class="decl-tab active" onclick="showTable(1,this)">1. Dekl.</button>
+      <button class="decl-tab" onclick="showTable(2,this)">2. Dekl.</button>
+      <button class="decl-tab" onclick="showTable(3,this)">3. Dekl.</button>
+      <button class="decl-tab" onclick="showTable(4,this)">4. Dekl.</button>
+      <button class="decl-tab" onclick="showTable(5,this)">5. Dekl.</button>
+    </div>
+    <div id="tableContent"></div>
+  </div>
+</section>
+
+<!-- ================ TIPPS ================ -->
+<section id="tips" class="section">
+  <div class="card" style="margin-bottom:14px;">
+    <div class="card-title"><span class="icon">💡</span> Lerntipps & Eselsbrücken</div>
+  </div>
+
+  <div class="tip-grid">
+    <div class="tip-card" style="--tip-color:#F0C040">
+      <div class="tip-num">1</div>
+      <div class="tip-head">🎯 Vokabel immer mit Genitiv lernen!</div>
+      <div class="tip-body">Lerne nie nur den Nominativ. Schreibe immer: <em>puella, -ae</em> oder <em>rex, regis</em>. Der Genitiv zeigt dir den <strong>Stamm</strong> und die <strong>Deklination</strong>.</div>
+    </div>
+    <div class="tip-card" style="--tip-color:#E8703A">
+      <div class="tip-num">2</div>
+      <div class="tip-head">🔑 Endungen erkennen & markieren</div>
+      <div class="tip-body">Markiere beim Lesen die Endung farbig: <em>puell-am</em> → Akkusativ Sg. Trainiere das bis es automatisch geht!</div>
+    </div>
+    <div class="tip-card" style="--tip-color:#5A9ADB">
+      <div class="tip-num">3</div>
+      <div class="tip-head">🔢 Die 1. Deklination – alles -a</div>
+      <div class="tip-body">Merke: Die meisten Wörter der 1. Deklination sind feminin. Ausnahmen: <strong>nauta</strong> (Seemann), <strong>poeta</strong> (Dichter), <strong>agricola</strong> (Bauer) – maskulin!</div>
+      <div class="mnemonic">🧠 Na-Po-Ag sind Männer!</div>
+    </div>
+    <div class="tip-card" style="--tip-color:#6AAA50">
+      <div class="tip-num">4</div>
+      <div class="tip-head">⚡ Ablativ ≠ Dativ erkennen</div>
+      <div class="tip-body">Dativ Plural und Ablativ Plural haben <strong>dieselbe Endung</strong> (-is, -ibus). Den Unterschied erkennt man am <strong>Kontext</strong> im Satz!</div>
+    </div>
+    <div class="tip-card" style="--tip-color:#AB5ADB">
+      <div class="tip-num">5</div>
+      <div class="tip-head">📖 Kontext ist König</div>
+      <div class="tip-body">Ein Wort allein hat keine Bedeutung. Übersetze immer den <strong>ganzen Satz</strong> und nutze Subjekt + Verb als Anker.</div>
+    </div>
+    <div class="tip-card" style="--tip-color:#C8960C">
+      <div class="tip-num">6</div>
+      <div class="tip-head">🔄 Neutrum-Regel (2. & 3. Dekl.)</div>
+      <div class="tip-body">Bei Neutra gilt: <strong>Nominativ = Akkusativ = Vokativ</strong>. Im Plural enden Neutra immer auf <em>-a</em>.</div>
+      <div class="mnemonic">🧠 Nom = Akk = Vok (bei Neutra)</div>
+    </div>
+    <div class="tip-card" style="--tip-color:#E8703A">
+      <div class="tip-num">7</div>
+      <div class="tip-head">🎵 Lernlieder & Rhythmus</div>
+      <div class="tip-body">Sprich Endungen im Rhythmus: <em>„a – ae – ae – am – a | ae – arum – is – as – is"</em>. Sing sie wie einen Rap!</div>
+    </div>
+    <div class="tip-card" style="--tip-color:#5A9ADB">
+      <div class="tip-num">8</div>
+      <div class="tip-head">🃏 Karteikarten-Methode</div>
+      <div class="tip-body">Schreibe auf eine Karte: Vorderseite = Wortform, Rückseite = Kasus + Numerus + Deklination. <strong>Täglich 10 Minuten</strong> üben reicht!</div>
+    </div>
+    <div class="tip-card" style="--tip-color:#6AAA50">
+      <div class="tip-num">9</div>
+      <div class="tip-head">✍️ Immer schreiben!</div>
+      <div class="tip-body">Schreibe die Tabellen <strong>mindestens 3-mal</strong> aus dem Gedächtnis auf. Motorisches Lernen prägt sich tiefer ein als nur Lesen.</div>
+    </div>
+    <div class="tip-card" style="--tip-color:#F0C040">
+      <div class="tip-num">10</div>
+      <div class="tip-head">⏰ Spaced Repetition</div>
+      <div class="tip-body">Wiederhole heute, morgen, in 3 Tagen, in einer Woche. Das nutzt das <strong>Vergessenskurven-Prinzip</strong> – so bleibt es lange im Gedächtnis!</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px;">
+    <div class="card-title"><span class="icon">🗺️</span> Kasus-Fragen auf einen Blick</div>
+    <div style="display:grid;gap:8px">
+      <div style="display:flex;gap:10px;align-items:center;padding:8px;background:rgba(240,192,64,0.08);border-radius:8px">
+        <span style="font-family:'Cinzel',serif;color:var(--gold);font-weight:900;min-width:70px">Nom.</span>
+        <span style="font-size:0.85rem;color:var(--parchment)"><strong>Wer?</strong> Wer ist das Subjekt?</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;padding:8px;background:rgba(232,112,58,0.08);border-radius:8px">
+        <span style="font-family:'Cinzel',serif;color:var(--terracotta-light);font-weight:900;min-width:70px">Gen.</span>
+        <span style="font-size:0.85rem;color:var(--parchment)"><strong>Wessen?</strong> → Besitz, Zugehörigkeit</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;padding:8px;background:rgba(90,154,219,0.08);border-radius:8px">
+        <span style="font-family:'Cinzel',serif;color:var(--sky-light);font-weight:900;min-width:70px">Dat.</span>
+        <span style="font-size:0.85rem;color:var(--parchment)"><strong>Wem?</strong> → Empfänger der Handlung</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;padding:8px;background:rgba(171,90,219,0.08);border-radius:8px">
+        <span style="font-family:'Cinzel',serif;color:var(--purple-light);font-weight:900;min-width:70px">Akk.</span>
+        <span style="font-size:0.85rem;color:var(--parchment)"><strong>Wen/Was?</strong> → direktes Objekt, Ziel</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;padding:8px;background:rgba(106,170,80,0.08);border-radius:8px">
+        <span style="font-family:'Cinzel',serif;color:var(--laurel-light);font-weight:900;min-width:70px">Abl.</span>
+        <span style="font-size:0.85rem;color:var(--parchment)"><strong>Womit/Von wem?</strong> → Mittel, Ort, Trennung</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ QUIZ ================ -->
+<section id="quiz" class="section">
+  <div id="quizSetup">
+    <div class="card">
+      <div class="card-title"><span class="icon">⚡</span> Quiz-Modus wählen</div>
+      <div class="mode-grid">
+        <div class="mode-card mode-1 selected" onclick="selectMode(1,this)" id="modeCard1">
+          <div class="mode-icon">🎯</div>
+          <div class="mode-info">
+            <h3>Kasus bestimmen</h3>
+            <p>Erkenne den Kasus einer deklinierter Wortform.</p>
+          </div>
+        </div>
+        <div class="mode-card mode-2" onclick="selectMode(2,this)" id="modeCard2">
+          <div class="mode-icon">🏋️</div>
+          <div class="mode-info">
+            <h3>Form bilden</h3>
+            <p>Wähle die richtige Endung für einen gegebenen Kasus.</p>
+          </div>
+        </div>
+        <div class="mode-card mode-3" onclick="selectMode(3,this)" id="modeCard3">
+          <div class="mode-icon">🔀</div>
+          <div class="mode-info">
+            <h3>Gemischt</h3>
+            <p>Abwechselnde Fragen – der schwierigste Modus!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📚</span> Deklination auswählen</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="decl-tab active" id="qdAll" onclick="toggleDeclFilter('all', this)">Alle</button>
+        <button class="decl-tab" id="qd1" onclick="toggleDeclFilter(1, this)">1. Dekl.</button>
+        <button class="decl-tab" id="qd2" onclick="toggleDeclFilter(2, this)">2. Dekl.</button>
+        <button class="decl-tab" id="qd3" onclick="toggleDeclFilter(3, this)">3. Dekl.</button>
+        <button class="decl-tab" id="qd4" onclick="toggleDeclFilter(4, this)">4. Dekl.</button>
+        <button class="decl-tab" id="qd5" onclick="toggleDeclFilter(5, this)">5. Dekl.</button>
+      </div>
+    </div>
+    <button class="start-quiz-btn" onclick="startQuiz()">⚔️ Quiz starten!</button>
+  </div>
+
+  <div id="quizPlay">
+    <div class="quiz-header">
+      <div class="quiz-score-box" id="scoreBox">✨ 0 / 0</div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+      <div class="streak" id="streakBadge">🔥 0</div>
+    </div>
+
+    <div class="quiz-word-card" id="quizWordCard">
+      <div class="word-label">BESTIMME DIE FORM</div>
+      <div class="word-display" id="quizWord">puellam</div>
+      <div class="word-hint" id="quizHint">1. Deklination</div>
+    </div>
+
+    <div class="quiz-question" id="quizQuestion">Wähle Kasus (Sg. oder Pl.) und Genus!</div>
+
+    <div class="card" id="selectorCard" style="padding:16px">
+      <div class="selector-section">
+        <div class="selector-label">⚔️ Kasus &amp; Numerus</div>
+        <div class="kasus-grid">
+          <div class="kasus-col">
+            <div class="kasus-col-label">Singular</div>
+            <button class="sel-btn" style="--sel-color:#F0C040" data-group="kasus" data-val="Nominativ" data-num="Sg." onclick="toggleSel(this)">Nominativ</button>
+            <button class="sel-btn" style="--sel-color:#E8703A" data-group="kasus" data-val="Genitiv"   data-num="Sg." onclick="toggleSel(this)">Genitiv</button>
+            <button class="sel-btn" style="--sel-color:#5A9ADB" data-group="kasus" data-val="Dativ"     data-num="Sg." onclick="toggleSel(this)">Dativ</button>
+            <button class="sel-btn" style="--sel-color:#AB5ADB" data-group="kasus" data-val="Akkusativ" data-num="Sg." onclick="toggleSel(this)">Akkusativ</button>
+            <button class="sel-btn" style="--sel-color:#6AAA50" data-group="kasus" data-val="Ablativ"   data-num="Sg." onclick="toggleSel(this)">Ablativ</button>
+            <button class="sel-btn" style="--sel-color:#C8960C" data-group="kasus" data-val="Vokativ"   data-num="Sg." onclick="toggleSel(this)">Vokativ</button>
+          </div>
+          <div class="kasus-col">
+            <div class="kasus-col-label">Plural</div>
+            <button class="sel-btn" style="--sel-color:#F0C040" data-group="kasus" data-val="Nominativ" data-num="Pl." onclick="toggleSel(this)">Nominativ</button>
+            <button class="sel-btn" style="--sel-color:#E8703A" data-group="kasus" data-val="Genitiv"   data-num="Pl." onclick="toggleSel(this)">Genitiv</button>
+            <button class="sel-btn" style="--sel-color:#5A9ADB" data-group="kasus" data-val="Dativ"     data-num="Pl." onclick="toggleSel(this)">Dativ</button>
+            <button class="sel-btn" style="--sel-color:#AB5ADB" data-group="kasus" data-val="Akkusativ" data-num="Pl." onclick="toggleSel(this)">Akkusativ</button>
+            <button class="sel-btn" style="--sel-color:#6AAA50" data-group="kasus" data-val="Ablativ"   data-num="Pl." onclick="toggleSel(this)">Ablativ</button>
+            <button class="sel-btn" style="--sel-color:#C8960C" data-group="kasus" data-val="Vokativ"   data-num="Pl." onclick="toggleSel(this)">Vokativ</button>
+          </div>
+        </div>
+      </div>
+      <div class="selector-divider"></div>
+      <div class="selector-section">
+        <div class="selector-label">⚤ Genus</div>
+        <div class="selector-row">
+          <button class="sel-btn" style="--sel-color:#5A9ADB" data-group="genus" data-val="m." onclick="toggleSel(this)">Maskulinum</button>
+          <button class="sel-btn" style="--sel-color:#E8703A" data-group="genus" data-val="f." onclick="toggleSel(this)">Femininum</button>
+          <button class="sel-btn" style="--sel-color:#6AAA50" data-group="genus" data-val="n." onclick="toggleSel(this)">Neutrum</button>
+        </div>
+      </div>
+      <div class="selector-divider"></div>
+      <button class="check-btn" id="checkBtn" onclick="checkMultiAnswer()" disabled>✔ Antwort prüfen</button>
+    </div>
+
+    <!-- MODE 2: Form bilden – Texteingabe -->
+    <div class="card" id="formCard" style="padding:16px;display:none">
+      <div class="selector-label" style="margin-bottom:10px">✍️ Bilde die Form</div>
+      <input type="text" id="formInput" placeholder="Deine Antwort …"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        style="width:100%;background:rgba(255,255,255,0.07);border:2px solid rgba(240,192,64,0.35);border-radius:10px;padding:13px 14px;font-family:'Cinzel',serif;font-size:1.1rem;color:var(--marble);outline:none;transition:border 0.2s;"
+        oninput="document.getElementById('checkFormBtn').disabled=this.value.trim().length===0"
+        onkeydown="if(event.key==='Enter'&&!document.getElementById('checkFormBtn').disabled)checkFormAnswer()">
+      <button class="check-btn" id="checkFormBtn" onclick="checkFormAnswer()" disabled style="margin-top:10px">✔ Antwort prüfen</button>
+    </div>
+
+    <div class="feedback-box" id="feedbackBox">
+      <div class="feedback-title" id="feedbackTitle"></div>
+      <div id="feedbackText"></div>
+    </div>
+
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Weiter →</button>
+
+    <div class="result-screen" id="resultScreen">
+      <span class="result-emoji" id="resultEmoji">🏆</span>
+      <div class="result-title">Quiz beendet!</div>
+      <div class="result-stars" id="resultStars"></div>
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-msg" id="resultMsg"></div>
+      <button class="restart-btn" onclick="resetQuiz()">🔄 Nochmal spielen</button>
+    </div>
+  </div>
+</section>
+
+<footer>SPQR · Senatus Populusque Romanus · Latein lernen macht Spaß!<br><span style="opacity:0.6">© Titus Wagner</span></footer>
+
+<script>
+// ============================================================
+// DECLENSION TABLES DATA
+// ============================================================
+const DECLENSIONS = {
+  1: {
+    name: '1. Deklination – a-Stämme',
+    example: 'puella, -ae (f.) – das Mädchen',
+    headers: ['Kasus', 'Singular', 'Plural'],
+    rows: [
+      ['Nominativ', 'puell-a',    'puell-ae'],
+      ['Genitiv',   'puell-ae',   'puell-ārum'],
+      ['Dativ',     'puell-ae',   'puell-īs'],
+      ['Akkusativ', 'puell-am',   'puell-ās'],
+      ['Ablativ',   'puell-ā',    'puell-īs'],
+      ['Vokativ',   'puell-a',    'puell-ae'],
+    ],
+    note: 'Meist feminin. Ausnahmen (mask.): nauta, poeta, agricola. Dat./Abl. Pl. immer -īs. Gen./Dat. Sg. und Nom. Pl. sind gleich: -ae!'
+  },
+  2: {
+    name: '2. Deklination – o-Stämme',
+    example: 'servus, -i (m.) – der Sklave | bellum, -i (n.) – der Krieg',
+    headers: ['Kasus', 'Sg. (m.)', 'Pl. (m.)', 'Sg. (n.)', 'Pl. (n.)'],
+    rows: [
+      ['Nominativ', 'serv-us',   'serv-ī',    'bell-um',  'bell-a'],
+      ['Genitiv',   'serv-ī',    'serv-ōrum', 'bell-ī',   'bell-ōrum'],
+      ['Dativ',     'serv-ō',    'serv-īs',   'bell-ō',   'bell-īs'],
+      ['Akkusativ', 'serv-um',   'serv-ōs',   'bell-um',  'bell-a'],
+      ['Ablativ',   'serv-ō',    'serv-īs',   'bell-ō',   'bell-īs'],
+      ['Vokativ',   'serv-e',    'serv-ī',    'bell-um',  'bell-a'],
+    ],
+    note: 'Meist maskulin (-us) oder neutrum (-um). Vok. Sg. mask. endet auf -e (Ausnahme: deus → dee/di). Neutrum: Nom.=Akk.=Vok., Pl. immer -a.'
+  },
+  3: {
+    name: '3. Deklination – Konsonant- & i-Stämme',
+    example: 'rex, regis (m.) – der König | urbs, urbis (f.) – die Stadt',
+    headers: ['Kasus', 'Sg. (kons.)', 'Pl. (kons.)', 'Sg. (i-St.)', 'Pl. (i-St.)'],
+    rows: [
+      ['Nominativ', 'rex',      'reg-ēs',    'urbs',     'urb-ēs'],
+      ['Genitiv',   'reg-is',   'reg-um',    'urb-is',   'urb-ium'],
+      ['Dativ',     'reg-ī',    'reg-ibus',  'urb-ī',    'urb-ibus'],
+      ['Akkusativ', 'reg-em',   'reg-ēs',    'urb-em',   'urb-ēs/īs'],
+      ['Ablativ',   'reg-e',    'reg-ibus',  'urb-e',    'urb-ibus'],
+      ['Vokativ',   'rex',      'reg-ēs',    'urbs',     'urb-ēs'],
+    ],
+    note: 'Der Stamm ergibt sich aus dem Genitiv (reg-is → Stamm reg-). i-Stämme haben Gen. Pl. auf -ium statt -um. Alle Geschlechter möglich!'
+  },
+  4: {
+    name: '4. Deklination – u-Stämme',
+    example: 'manus, -us (f.) – die Hand | cornu, -us (n.) – das Horn',
+    headers: ['Kasus', 'Sg. (m./f.)', 'Pl. (m./f.)', 'Sg. (n.)', 'Pl. (n.)'],
+    rows: [
+      ['Nominativ', 'man-us',   'man-ūs',    'corn-ū',   'corn-ua'],
+      ['Genitiv',   'man-ūs',   'man-uum',   'corn-ūs',  'corn-uum'],
+      ['Dativ',     'man-uī',   'man-ibus',  'corn-ū',   'corn-ibus'],
+      ['Akkusativ', 'man-um',   'man-ūs',    'corn-ū',   'corn-ua'],
+      ['Ablativ',   'man-ū',    'man-ibus',  'corn-ū',   'corn-ibus'],
+      ['Vokativ',   'man-us',   'man-ūs',    'corn-ū',   'corn-ua'],
+    ],
+    note: 'Meist maskulin; manus ist feminin. -us erscheint als Nom. Sg., Gen. Sg. UND Nom./Akk. Pl. – sehr mehrdeutig! Dat./Abl. Pl. auf -ibus.'
+  },
+  5: {
+    name: '5. Deklination – e-Stämme',
+    example: 'res, rei (f.) – die Sache | dies, diei (m.) – der Tag',
+    headers: ['Kasus', 'Singular', 'Plural'],
+    rows: [
+      ['Nominativ', 'r-ēs',     'r-ēs'],
+      ['Genitiv',   'r-eī',     'r-ērum'],
+      ['Dativ',     'r-eī',     'r-ēbus'],
+      ['Akkusativ', 'r-em',     'r-ēs'],
+      ['Ablativ',   'r-ē',      'r-ēbus'],
+      ['Vokativ',   'r-ēs',     'r-ēs'],
+    ],
+    note: 'Meist feminin; dies (Tag) ist maskulin. -ēs ist Nom.=Akk.=Vok. Sg. UND Pl.! Gen.=Dat. Sg. auf -eī. Seltenste Deklination.'
+  }
+};
+
+// ============================================================
+// EXPANDED QUIZ WORD DATABASE
+// Each entry: word, decl, genus[], kasus[], numerus[], explanation
+// kasus/numerus/genus are arrays because one form can be ambiguous
+// ============================================================
+const QUIZ_WORDS = [
+  // ===== 1. DEKLINATION (a-Stämme, meist f.) =====
+  { word:'puella',    decl:1, genus:['f.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'Nom./Vok./Abl. Sg. der 1. Dekl. – alle enden auf -a.' },
+  { word:'puellae',   decl:1, genus:['f.'], kasus:['Genitiv','Dativ','Nominativ'],   numerus:['Sg.','Pl.'], explanation:'-ae ist Gen. Sg., Dat. Sg. UND Nom. Pl. der 1. Dekl.!' },
+  { word:'puellam',   decl:1, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. der 1. Dekl. endet auf -am.' },
+  { word:'puellarum', decl:1, genus:['f.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. der 1. Dekl. endet auf -arum.' },
+  { word:'puellas',   decl:1, genus:['f.'], kasus:['Akkusativ'],  numerus:['Pl.'], explanation:'Akk. Pl. der 1. Dekl. endet auf -as.' },
+  { word:'puellis',   decl:1, genus:['f.'], kasus:['Dativ','Ablativ'], numerus:['Pl.'], explanation:'Dat. UND Abl. Pl. der 1. Dekl. enden beide auf -is!' },
+  { word:'puellā',    decl:1, genus:['f.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. der 1. Dekl. – langer Vokal ā (manchmal mit Längenstrich).' },
+  // nauta (m.)
+  { word:'nauta',     decl:1, genus:['m.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'nauta ist maskulin! Nom./Vok./Abl. Sg. auf -a.' },
+  { word:'nautam',    decl:1, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. des mask. 1.-Dekl.-Wortes nauta.' },
+  { word:'nautarum',  decl:1, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -arum.' },
+  { word:'nautae',    decl:1, genus:['m.'], kasus:['Genitiv','Dativ','Nominativ'], numerus:['Sg.','Pl.'], explanation:'-ae: Gen. Sg., Dat. Sg. oder Nom. Pl. – Kontext entscheidet.' },
+  // poeta (m.)
+  { word:'poeta',     decl:1, genus:['m.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'poeta (Dichter) ist maskulin trotz -a-Endung!' },
+  { word:'poetam',    decl:1, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. des mask. poeta.' },
+  // agricola (m.)
+  { word:'agricola',  decl:1, genus:['m.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'agricola (Bauer) – maskulin! Merke: Na-Po-Ag sind Männer.' },
+  { word:'agricolae', decl:1, genus:['m.'], kasus:['Genitiv','Dativ','Nominativ'], numerus:['Sg.','Pl.'], explanation:'-ae: mehrdeutig – Gen./Dat. Sg. oder Nom. Pl.' },
+  // silva, -ae (f.)
+  { word:'silva',     decl:1, genus:['f.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'silva (Wald) – Nom./Vok./Abl. Sg. auf -a.' },
+  { word:'silvam',    decl:1, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von silva.' },
+  { word:'silvarum',  decl:1, genus:['f.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -arum.' },
+  { word:'silvas',    decl:1, genus:['f.'], kasus:['Akkusativ'],  numerus:['Pl.'], explanation:'Akk. Pl. auf -as.' },
+  // via, -ae (f.)
+  { word:'via',       decl:1, genus:['f.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'via (Weg/Straße) – Nom./Vok./Abl. Sg.' },
+  { word:'viam',      decl:1, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von via.' },
+  { word:'viarum',    decl:1, genus:['f.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. von via.' },
+  { word:'viis',      decl:1, genus:['f.'], kasus:['Dativ','Ablativ'], numerus:['Pl.'], explanation:'Dat./Abl. Pl. von via.' },
+  // terra, -ae (f.)
+  { word:'terra',     decl:1, genus:['f.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'terra (Erde/Land) – Nom./Vok./Abl. Sg.' },
+  { word:'terram',    decl:1, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von terra.' },
+  { word:'terrarum',  decl:1, genus:['f.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. von terra – bekannt aus „terrarum orbis" (Erdkreis).' },
+  // aqua, -ae (f.)
+  { word:'aqua',      decl:1, genus:['f.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'aqua (Wasser) – Nom./Vok./Abl. Sg.' },
+  { word:'aquam',     decl:1, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von aqua.' },
+  { word:'aquarum',   decl:1, genus:['f.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -arum.' },
+  // luna, -ae (f.)
+  { word:'luna',      decl:1, genus:['f.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'luna (Mond) – Nom./Vok./Abl. Sg.' },
+  { word:'lunam',     decl:1, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von luna.' },
+  // hora, -ae (f.)
+  { word:'hora',      decl:1, genus:['f.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'hora (Stunde) – Nom./Vok./Abl. Sg. auf -a.' },
+  { word:'horam',     decl:1, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von hora.' },
+  { word:'horae',     decl:1, genus:['f.'], kasus:['Genitiv','Dativ','Nominativ'], numerus:['Sg.','Pl.'], explanation:'-ae: Gen./Dat. Sg. oder Nom. Pl. von hora.' },
+  { word:'horarum',   decl:1, genus:['f.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. von hora auf -arum.' },
+  // filia, -ae (f.)
+  { word:'filia',     decl:1, genus:['f.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'filia (Tochter) – Nom./Vok./Abl. Sg.' },
+  { word:'filiam',    decl:1, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von filia.' },
+  { word:'filiarum',  decl:1, genus:['f.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. von filia auf -arum.' },
+  // fortuna, -ae (f.)
+  { word:'fortuna',   decl:1, genus:['f.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'fortuna (Glück/Schicksal) – Nom./Vok./Abl. Sg.' },
+  { word:'fortunam',  decl:1, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von fortuna.' },
+  { word:'fortunae',  decl:1, genus:['f.'], kasus:['Genitiv','Dativ','Nominativ'], numerus:['Sg.','Pl.'], explanation:'-ae: mehrdeutig – Gen./Dat. Sg. oder Nom. Pl.' },
+  // nauta, -ae (m.)
+  { word:'nauta',     decl:1, genus:['m.'], kasus:['Nominativ','Vokativ','Ablativ'], numerus:['Sg.'], explanation:'nauta (Matrose/Seemann) – maskulin trotz -a-Endung!' },
+  { word:'nautam',    decl:1, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von nauta.' },
+  { word:'nautarum',  decl:1, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. von nauta auf -arum.' },
+
+  // ===== 2. DEKLINATION (o-Stämme, m./n.) =====
+  // servus, -i (m.)
+  { word:'servus',    decl:2, genus:['m.'], kasus:['Nominativ'],  numerus:['Sg.'], explanation:'Nom. Sg. der 2. Dekl. (mask.) endet auf -us.' },
+  { word:'serve',     decl:2, genus:['m.'], kasus:['Vokativ'],    numerus:['Sg.'], explanation:'Vok. Sg. der 2. Dekl. mask. endet auf -e (Ausnahme: deus → di!).' },
+  { word:'servi',     decl:2, genus:['m.'], kasus:['Genitiv','Nominativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'-i ist Gen. Sg. oder Nom./Vok. Pl. der 2. Dekl.' },
+  { word:'servo',     decl:2, genus:['m.'], kasus:['Dativ','Ablativ'], numerus:['Sg.'], explanation:'Dat. UND Abl. Sg. der 2. Dekl. mask./neutr. auf -o.' },
+  { word:'servum',    decl:2, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. der 2. Dekl. mask. auf -um.' },
+  { word:'servorum',  decl:2, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. der 2. Dekl. auf -orum.' },
+  { word:'servis',    decl:2, genus:['m.'], kasus:['Dativ','Ablativ'], numerus:['Pl.'], explanation:'Dat./Abl. Pl. der 2. Dekl. auf -is.' },
+  { word:'servos',    decl:2, genus:['m.'], kasus:['Akkusativ'],  numerus:['Pl.'], explanation:'Akk. Pl. der 2. Dekl. mask. auf -os.' },
+  // dominus, -i (m.)
+  { word:'dominus',   decl:2, genus:['m.'], kasus:['Nominativ'],  numerus:['Sg.'], explanation:'dominus (Herr) – Nom. Sg. auf -us.' },
+  { word:'domini',    decl:2, genus:['m.'], kasus:['Genitiv','Nominativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'-i: Gen. Sg. oder Nom./Vok. Pl.' },
+  { word:'dominum',   decl:2, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von dominus.' },
+  { word:'domino',    decl:2, genus:['m.'], kasus:['Dativ','Ablativ'], numerus:['Sg.'], explanation:'Dat./Abl. Sg. von dominus.' },
+  { word:'dominos',   decl:2, genus:['m.'], kasus:['Akkusativ'],  numerus:['Pl.'], explanation:'Akk. Pl. von dominus.' },
+  { word:'dominorum', decl:2, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -orum.' },
+  // puer, -i (m.) – Sonderfall
+  { word:'puer',      decl:2, genus:['m.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'puer (Junge) – Sonderfall: kein -us im Nom. Sg., Stamm behält -e-.' },
+  { word:'pueri',     decl:2, genus:['m.'], kasus:['Genitiv','Nominativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'Gen. Sg. oder Nom./Vok. Pl. von puer.' },
+  { word:'puerum',    decl:2, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von puer.' },
+  // amicus, -i (m.)
+  { word:'amicus',    decl:2, genus:['m.'], kasus:['Nominativ'],  numerus:['Sg.'], explanation:'amicus (Freund) – Nom. Sg. auf -us.' },
+  { word:'amici',     decl:2, genus:['m.'], kasus:['Genitiv','Nominativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'Gen. Sg. oder Nom./Vok. Pl. von amicus.' },
+  { word:'amicum',    decl:2, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von amicus.' },
+  { word:'amice',     decl:2, genus:['m.'], kasus:['Vokativ'],    numerus:['Sg.'], explanation:'Vok. Sg. auf -e: „O amice!" (O Freund!).' },
+  // bellum, -i (n.)
+  { word:'bellum',    decl:2, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.'], explanation:'Neutrum! Nom.=Akk.=Vok. Sg. auf -um.' },
+  { word:'belli',     decl:2, genus:['n.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. des Neutrums bellum.' },
+  { word:'bello',     decl:2, genus:['n.'], kasus:['Dativ','Ablativ'], numerus:['Sg.'], explanation:'Dat./Abl. Sg. des Neutrums bellum.' },
+  { word:'bella',     decl:2, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Neutrum Pl. endet IMMER auf -a! Nom.=Akk.=Vok. Pl.' },
+  { word:'bellorum',  decl:2, genus:['n.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. des Neutrums auf -orum.' },
+  // verbum, -i (n.)
+  { word:'verbum',    decl:2, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.'], explanation:'verbum (Wort) – Neutrum: Nom.=Akk.=Vok. Sg.' },
+  { word:'verbi',     decl:2, genus:['n.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von verbum.' },
+  { word:'verba',     decl:2, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Neutrum Pl. auf -a.' },
+  // templum, -i (n.)
+  { word:'templum',   decl:2, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.'], explanation:'templum (Tempel) – Neutrum Sg.' },
+  { word:'templa',    decl:2, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Neutrum Pl. auf -a.' },
+  { word:'templorum', decl:2, genus:['n.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -orum.' },
+  // deus, -i (m.)
+  { word:'deus',      decl:2, genus:['m.'], kasus:['Nominativ'],  numerus:['Sg.'], explanation:'deus (Gott) – Nom. Sg. auf -us.' },
+  { word:'dei',       decl:2, genus:['m.'], kasus:['Genitiv','Nominativ'], numerus:['Sg.','Pl.'], explanation:'Gen. Sg. oder Nom. Pl. von deus.' },
+  { word:'deum',      decl:2, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von deus.' },
+  // filius, -i (m.)
+  { word:'filius',    decl:2, genus:['m.'], kasus:['Nominativ'],  numerus:['Sg.'], explanation:'filius (Sohn) – Nom. Sg. auf -us.' },
+  { word:'filii',     decl:2, genus:['m.'], kasus:['Genitiv','Nominativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'Gen. Sg. oder Nom./Vok. Pl. von filius.' },
+  { word:'filio',     decl:2, genus:['m.'], kasus:['Dativ','Ablativ'], numerus:['Sg.'], explanation:'Dat./Abl. Sg. von filius.' },
+  { word:'filium',    decl:2, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von filius.' },
+  // magister, -tri (m.)
+  { word:'magister',  decl:2, genus:['m.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'magister (Lehrer/Meister) – Sonderfall: kein -us, Stamm magistr-.' },
+  { word:'magistri',  decl:2, genus:['m.'], kasus:['Genitiv','Nominativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'Gen. Sg. oder Nom./Vok. Pl. von magister.' },
+  { word:'magistrum', decl:2, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von magister.' },
+  { word:'magistro',  decl:2, genus:['m.'], kasus:['Dativ','Ablativ'], numerus:['Sg.'], explanation:'Dat./Abl. Sg. von magister.' },
+  // oppidum, -i (n.)
+  { word:'oppidum',   decl:2, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.'], explanation:'oppidum (Stadt/Ort) – Neutrum: Nom.=Akk.=Vok. Sg.' },
+  { word:'oppidi',    decl:2, genus:['n.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von oppidum.' },
+  { word:'oppido',    decl:2, genus:['n.'], kasus:['Dativ','Ablativ'], numerus:['Sg.'], explanation:'Dat./Abl. Sg. von oppidum.' },
+  { word:'oppida',    decl:2, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Neutrum Pl. auf -a.' },
+  { word:'oppidorum', decl:2, genus:['n.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. von oppidum auf -orum.' },
+  // forum, -i (n.)
+  { word:'forum',     decl:2, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.'], explanation:'forum (Marktplatz/Forum) – Neutrum Sg.' },
+  { word:'fori',      decl:2, genus:['n.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von forum.' },
+  { word:'fora',      decl:2, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Neutrum Pl. auf -a.' },
+
+  // ===== 3. DEKLINATION =====
+  // rex, regis (m.)
+  { word:'rex',       decl:3, genus:['m.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'rex (König) – Nom./Vok. Sg.; Stamm reg- sieht man im Gen. regis.' },
+  { word:'regis',     decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. der 3. Dekl. auf -is; zeigt den Stamm reg-.' },
+  { word:'regi',      decl:3, genus:['m.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. der 3. Dekl. auf -i.' },
+  { word:'regem',     decl:3, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. der 3. Dekl. auf -em.' },
+  { word:'rege',      decl:3, genus:['m.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. der 3. Dekl. auf -e.' },
+  { word:'reges',     decl:3, genus:['m.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. der 3. Dekl. auf -es.' },
+  { word:'regum',     decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. der 3. Dekl. auf -um.' },
+  { word:'regibus',   decl:3, genus:['m.'], kasus:['Dativ','Ablativ'], numerus:['Pl.'], explanation:'Dat./Abl. Pl. der 3. Dekl. auf -ibus.' },
+  // miles, militis (m.)
+  { word:'miles',     decl:3, genus:['m.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'miles (Soldat) – Nom./Vok. Sg.; Stamm milit-.' },
+  { word:'militis',   decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von miles: militis → Stamm milit-.' },
+  { word:'militem',   decl:3, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von miles.' },
+  { word:'milite',    decl:3, genus:['m.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von miles auf -e.' },
+  { word:'milites',   decl:3, genus:['m.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. auf -es.' },
+  { word:'militum',   decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -um.' },
+  { word:'militibus', decl:3, genus:['m.'], kasus:['Dativ','Ablativ'], numerus:['Pl.'], explanation:'Dat./Abl. Pl. auf -ibus.' },
+  // pater, patris (m.)
+  { word:'pater',     decl:3, genus:['m.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'pater (Vater) – Nom./Vok. Sg.; Stamm patr- (e fällt weg).' },
+  { word:'patris',    decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von pater – Stamm patr-.' },
+  { word:'patrem',    decl:3, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von pater.' },
+  { word:'patri',     decl:3, genus:['m.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von pater.' },
+  { word:'patre',     decl:3, genus:['m.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von pater auf -e.' },
+  { word:'patres',    decl:3, genus:['m.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. auf -es.' },
+  { word:'patrum',    decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -um.' },
+  // mater, matris (f.)
+  { word:'mater',     decl:3, genus:['f.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'mater (Mutter) – feminin! Nom./Vok. Sg.' },
+  { word:'matris',    decl:3, genus:['f.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von mater – Stamm matr-.' },
+  { word:'matrem',    decl:3, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von mater.' },
+  { word:'matri',     decl:3, genus:['f.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von mater.' },
+  { word:'matre',     decl:3, genus:['f.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von mater.' },
+  { word:'matres',    decl:3, genus:['f.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. auf -es.' },
+  // corpus, corporis (n.)
+  { word:'corpus',    decl:3, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.'], explanation:'corpus (Körper) – Neutrum! Nom.=Akk.=Vok. Sg. auf -us, Stamm corpor-.' },
+  { word:'corporis',  decl:3, genus:['n.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von corpus – zeigt Stamm corpor-.' },
+  { word:'corpori',   decl:3, genus:['n.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von corpus auf -i.' },
+  { word:'corpore',   decl:3, genus:['n.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von corpus auf -e.' },
+  { word:'corpora',   decl:3, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Neutrum Pl. auf -a! Nom.=Akk.=Vok.' },
+  { word:'corporum',  decl:3, genus:['n.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -um.' },
+  // nomen, nominis (n.)
+  { word:'nomen',     decl:3, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.'], explanation:'nomen (Name) – Neutrum, Stamm nomin-.' },
+  { word:'nominis',   decl:3, genus:['n.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von nomen – Stamm nomin-.' },
+  { word:'nomini',    decl:3, genus:['n.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von nomen.' },
+  { word:'nomine',    decl:3, genus:['n.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von nomen.' },
+  { word:'nomina',    decl:3, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Neutrum Pl. auf -a.' },
+  // lux, lucis (f.)
+  { word:'lux',       decl:3, genus:['f.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'lux (Licht) – feminin, Stamm luc-.' },
+  { word:'lucis',     decl:3, genus:['f.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von lux – zeigt Stamm luc-.' },
+  { word:'lucem',     decl:3, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von lux.' },
+  { word:'luces',     decl:3, genus:['f.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. von lux auf -es.' },
+  // homo, hominis (m.)
+  { word:'homo',      decl:3, genus:['m.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'homo (Mensch/Mann) – Nom./Vok. Sg.; Stamm homin-.' },
+  { word:'hominis',   decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von homo.' },
+  { word:'hominem',   decl:3, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von homo.' },
+  { word:'homines',   decl:3, genus:['m.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. auf -es.' },
+  { word:'hominum',   decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -um.' },
+  // vox, vocis (f.)
+  { word:'vox',       decl:3, genus:['f.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'vox (Stimme) – feminin, Stamm voc-.' },
+  { word:'vocis',     decl:3, genus:['f.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von vox – Stamm voc-.' },
+  { word:'vocem',     decl:3, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von vox.' },
+  { word:'voce',      decl:3, genus:['f.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von vox.' },
+  { word:'voces',     decl:3, genus:['f.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. auf -es.' },
+  // mons, montis (m.)
+  { word:'mons',      decl:3, genus:['m.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'mons (Berg) – Nom./Vok. Sg.; Stamm mont-.' },
+  { word:'montis',    decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von mons – Stamm mont-.' },
+  { word:'montem',    decl:3, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von mons.' },
+  { word:'montes',    decl:3, genus:['m.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. auf -es.' },
+  { word:'montium',   decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. der i-Stämme auf -ium.' },
+  { word:'montibus',  decl:3, genus:['m.'], kasus:['Dativ','Ablativ'], numerus:['Pl.'], explanation:'Dat./Abl. Pl. auf -ibus.' },
+  // urbs, urbis (f.) – i-Stamm
+  { word:'urbs',      decl:3, genus:['f.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'urbs (Stadt) – i-Stamm, feminin; Stamm urb-.' },
+  { word:'urbis',     decl:3, genus:['f.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von urbs.' },
+  { word:'urbem',     decl:3, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von urbs.' },
+  { word:'urbi',      decl:3, genus:['f.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von urbs.' },
+  { word:'urbes',     decl:3, genus:['f.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. auf -es.' },
+  { word:'urbium',    decl:3, genus:['f.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. des i-Stamms auf -ium.' },
+  { word:'urbibus',   decl:3, genus:['f.'], kasus:['Dativ','Ablativ'], numerus:['Pl.'], explanation:'Dat./Abl. Pl. auf -ibus.' },
+  // caput, capitis (n.)
+  { word:'caput',     decl:3, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.'], explanation:'caput (Kopf/Haupt) – Neutrum, Stamm capit-.' },
+  { word:'capitis',   decl:3, genus:['n.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von caput – zeigt Stamm capit-.' },
+  { word:'capiti',    decl:3, genus:['n.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von caput auf -i.' },
+  { word:'capite',    decl:3, genus:['n.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von caput auf -e.' },
+  { word:'capita',    decl:3, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Neutrum Pl. auf -a.' },
+  // dux, ducis (m.)
+  { word:'dux',       decl:3, genus:['m.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'dux (Anführer/Feldherr) – maskulin, Stamm duc-.' },
+  { word:'ducis',     decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von dux – zeigt Stamm duc-.' },
+  { word:'duci',      decl:3, genus:['m.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von dux auf -i.' },
+  { word:'ducem',     decl:3, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von dux auf -em.' },
+  { word:'duces',     decl:3, genus:['m.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. auf -es.' },
+  { word:'ducum',     decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -um.' },
+  // frater, fratris (m.)
+  { word:'frater',    decl:3, genus:['m.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'frater (Bruder) – Nom./Vok. Sg.; Stamm fratr-.' },
+  { word:'fratris',   decl:3, genus:['m.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von frater – Stamm fratr-.' },
+  { word:'fratrem',   decl:3, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von frater.' },
+  { word:'fratri',    decl:3, genus:['m.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von frater.' },
+  { word:'fratre',    decl:3, genus:['m.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von frater auf -e.' },
+  { word:'fratres',   decl:3, genus:['m.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. auf -es.' },
+  // tempus, temporis (n.)
+  { word:'tempus',    decl:3, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.'], explanation:'tempus (Zeit) – Neutrum, Stamm tempor-.' },
+  { word:'temporis',  decl:3, genus:['n.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von tempus – zeigt Stamm tempor-.' },
+  { word:'tempori',   decl:3, genus:['n.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von tempus auf -i.' },
+  { word:'tempora',   decl:3, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Neutrum Pl. auf -a: „O tempora, o mores!".' },
+  { word:'temporum',  decl:3, genus:['n.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -um.' },
+  // lex, legis (f.)
+  { word:'lex',       decl:3, genus:['f.'], kasus:['Nominativ','Vokativ'], numerus:['Sg.'], explanation:'lex (Gesetz) – feminin, Stamm leg-.' },
+  { word:'legis',     decl:3, genus:['f.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von lex – zeigt Stamm leg-.' },
+  { word:'legi',      decl:3, genus:['f.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von lex auf -i.' },
+  { word:'legem',     decl:3, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von lex auf -em.' },
+  { word:'leges',     decl:3, genus:['f.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Nom./Akk./Vok. Pl. von lex auf -es.' },
+  { word:'legum',     decl:3, genus:['f.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. auf -um.' },
+
+  // ===== 4. DEKLINATION (u-Stämme) =====
+  // manus, -us (f.)
+  { word:'manus',     decl:4, genus:['f.','m.'], kasus:['Nominativ','Genitiv','Akkusativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'4. Dekl.: -us erscheint als Nom.Sg., Gen.Sg., Akk.Pl., Vok. – sehr mehrdeutig!' },
+  { word:'manum',     decl:4, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. der 4. Dekl. auf -um.' },
+  { word:'manui',     decl:4, genus:['f.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. der 4. Dekl. auf -ui.' },
+  { word:'manu',      decl:4, genus:['f.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. der 4. Dekl. auf -u.' },
+  { word:'manuum',    decl:4, genus:['f.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. der 4. Dekl. auf -uum.' },
+  { word:'manibus',   decl:4, genus:['f.'], kasus:['Dativ','Ablativ'], numerus:['Pl.'], explanation:'Dat./Abl. Pl. der 4. Dekl. auf -ibus.' },
+  // usus, -us (m.)
+  { word:'usus',      decl:4, genus:['m.'], kasus:['Nominativ','Genitiv','Vokativ'], numerus:['Sg.'], explanation:'usus (Gebrauch) – Nom./Gen./Vok. Sg. der 4. Dekl. auf -us.' },
+  { word:'usum',      decl:4, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von usus auf -um.' },
+  { word:'usui',      decl:4, genus:['m.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von usus auf -ui.' },
+  { word:'usu',       decl:4, genus:['m.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von usus auf -u.' },
+  // exercitus, -us (m.)
+  { word:'exercitus', decl:4, genus:['m.'], kasus:['Nominativ','Genitiv','Vokativ'], numerus:['Sg.'], explanation:'exercitus (Heer) – Nom./Gen./Vok. Sg. auf -us.' },
+  { word:'exercitum', decl:4, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von exercitus.' },
+  { word:'exercitui', decl:4, genus:['m.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von exercitus auf -ui.' },
+  { word:'exercitu',  decl:4, genus:['m.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von exercitus auf -u.' },
+  { word:'exercitus', decl:4, genus:['m.'], kasus:['Akkusativ','Nominativ'], numerus:['Pl.'], explanation:'Akk.Pl./Nom.Pl. von exercitus auf -us (wie Nom.Sg.!).' },
+  // fructus, -us (m.)
+  { word:'fructus',   decl:4, genus:['m.'], kasus:['Nominativ','Genitiv','Vokativ'], numerus:['Sg.'], explanation:'fructus (Frucht/Ertrag) – 4. Dekl. mask.; -us ist Nom./Gen./Vok. Sg.' },
+  { word:'fructum',   decl:4, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von fructus auf -um.' },
+  { word:'fructui',   decl:4, genus:['m.'], kasus:['Dativ'],      numerus:['Sg.'], explanation:'Dat. Sg. von fructus auf -ui.' },
+  { word:'fructu',    decl:4, genus:['m.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von fructus auf -u.' },
+  { word:'fructuum',  decl:4, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. der 4. Dekl. auf -uum.' },
+  // genu, -us (n.) – Neutrum 4. Dekl.
+  { word:'genu',      decl:4, genus:['n.'], kasus:['Nominativ','Akkusativ','Ablativ','Vokativ'], numerus:['Sg.'], explanation:'genu (Knie) – Neutrum der 4. Dekl.; Nom.=Akk.=Abl.=Vok. Sg. auf -u.' },
+  { word:'genus',     decl:4, genus:['n.'], kasus:['Genitiv'],    numerus:['Sg.'], explanation:'Gen. Sg. von genu auf -us.' },
+  { word:'genua',     decl:4, genus:['n.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Pl.'], explanation:'Neutrum Pl. auf -ua.' },
+
+  // ===== 5. DEKLINATION (e-Stämme) =====
+  // res, rei (f.)
+  { word:'res',       decl:5, genus:['f.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'5. Dekl.: -es ist Nom./Akk./Vok. sowohl Sg. als auch Pl.!' },
+  { word:'rei',       decl:5, genus:['f.'], kasus:['Genitiv','Dativ'], numerus:['Sg.'], explanation:'Gen. UND Dat. Sg. der 5. Dekl. auf -ei.' },
+  { word:'rem',       decl:5, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. der 5. Dekl. auf -em.' },
+  { word:'re',        decl:5, genus:['f.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. der 5. Dekl. auf -e.' },
+  { word:'rerum',     decl:5, genus:['f.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. der 5. Dekl. auf -erum.' },
+  { word:'rebus',     decl:5, genus:['f.'], kasus:['Dativ','Ablativ'], numerus:['Pl.'], explanation:'Dat./Abl. Pl. der 5. Dekl. auf -ebus.' },
+  // dies, diei (m./f.)
+  { word:'dies',      decl:5, genus:['m.','f.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'dies (Tag) – m. (Sg.) oder f. (Zeitangabe); -es Nom./Akk./Vok. Sg./Pl.' },
+  { word:'diei',      decl:5, genus:['m.'], kasus:['Genitiv','Dativ'], numerus:['Sg.'], explanation:'Gen./Dat. Sg. von dies auf -ei.' },
+  { word:'diem',      decl:5, genus:['m.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von dies auf -em.' },
+  { word:'die',       decl:5, genus:['m.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von dies auf -e.' },
+  { word:'dierum',    decl:5, genus:['m.'], kasus:['Genitiv'],    numerus:['Pl.'], explanation:'Gen. Pl. von dies auf -erum.' },
+  { word:'diebus',    decl:5, genus:['m.'], kasus:['Dativ','Ablativ'], numerus:['Pl.'], explanation:'Dat./Abl. Pl. von dies auf -ebus.' },
+  // spes, -ei (f.)
+  { word:'spes',      decl:5, genus:['f.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'spes (Hoffnung) – feminin. -es ist Nom./Akk./Vok. Sg./Pl.' },
+  { word:'spei',      decl:5, genus:['f.'], kasus:['Genitiv','Dativ'], numerus:['Sg.'], explanation:'Gen./Dat. Sg. von spes auf -ei.' },
+  { word:'spem',      decl:5, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von spes auf -em.' },
+  { word:'spe',       decl:5, genus:['f.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von spes auf -e.' },
+  // acies, -ei (f.)
+  { word:'acies',     decl:5, genus:['f.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'acies (Schlachtreihe/Schärfe) – feminin; -es Nom./Akk./Vok. Sg. und Pl.' },
+  { word:'aciei',     decl:5, genus:['f.'], kasus:['Genitiv','Dativ'], numerus:['Sg.'], explanation:'Gen./Dat. Sg. von acies auf -ei.' },
+  { word:'aciem',     decl:5, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von acies auf -em.' },
+  { word:'acie',      decl:5, genus:['f.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von acies auf -e.' },
+  // fides, -ei (f.)
+  { word:'fides',     decl:5, genus:['f.'], kasus:['Nominativ','Akkusativ','Vokativ'], numerus:['Sg.','Pl.'], explanation:'fides (Glaube/Treue) – feminin; -es Nom./Akk./Vok. Sg. und Pl.' },
+  { word:'fidei',     decl:5, genus:['f.'], kasus:['Genitiv','Dativ'], numerus:['Sg.'], explanation:'Gen./Dat. Sg. von fides auf -ei.' },
+  { word:'fidem',     decl:5, genus:['f.'], kasus:['Akkusativ'],  numerus:['Sg.'], explanation:'Akk. Sg. von fides auf -em.' },
+  { word:'fide',      decl:5, genus:['f.'], kasus:['Ablativ'],    numerus:['Sg.'], explanation:'Abl. Sg. von fides auf -e.' },
+];
+
+// ============================================================
+// FORM-BUILDING DATABASE
+// Each entry: base (Nominativ Sg.), kasus, numerus, answer (correct form), decl, explanation
+// ============================================================
+const FORM_WORDS = [
+  // 1. Deklination
+  { base:'puella',   decl:1, kasus:'Genitiv',   numerus:'Sg.', answer:'puellae',   explanation:'Gen. Sg. der 1. Dekl.: Stamm puell- + -ae' },
+  { base:'puella',   decl:1, kasus:'Dativ',      numerus:'Sg.', answer:'puellae',   explanation:'Dat. Sg. der 1. Dekl.: Stamm puell- + -ae' },
+  { base:'puella',   decl:1, kasus:'Akkusativ',  numerus:'Sg.', answer:'puellam',   explanation:'Akk. Sg. der 1. Dekl.: Stamm puell- + -am' },
+  { base:'puella',   decl:1, kasus:'Ablativ',    numerus:'Sg.', answer:'puella',    explanation:'Abl. Sg. der 1. Dekl.: wie Nom. Sg., aber mit langem -ā' },
+  { base:'puella',   decl:1, kasus:'Nominativ',  numerus:'Pl.', answer:'puellae',   explanation:'Nom. Pl. der 1. Dekl.: Stamm puell- + -ae' },
+  { base:'puella',   decl:1, kasus:'Genitiv',    numerus:'Pl.', answer:'puellarum', explanation:'Gen. Pl. der 1. Dekl.: Stamm puell- + -arum' },
+  { base:'puella',   decl:1, kasus:'Dativ',      numerus:'Pl.', answer:'puellis',   explanation:'Dat. Pl. der 1. Dekl.: Stamm puell- + -is' },
+  { base:'puella',   decl:1, kasus:'Akkusativ',  numerus:'Pl.', answer:'puellas',   explanation:'Akk. Pl. der 1. Dekl.: Stamm puell- + -as' },
+  { base:'puella',   decl:1, kasus:'Ablativ',    numerus:'Pl.', answer:'puellis',   explanation:'Abl. Pl. der 1. Dekl.: Stamm puell- + -is (= Dat. Pl.)' },
+  { base:'via',      decl:1, kasus:'Akkusativ',  numerus:'Sg.', answer:'viam',      explanation:'Akk. Sg. der 1. Dekl.: via → viam' },
+  { base:'via',      decl:1, kasus:'Genitiv',    numerus:'Pl.', answer:'viarum',    explanation:'Gen. Pl. der 1. Dekl.: via → viarum' },
+  { base:'nauta',    decl:1, kasus:'Genitiv',    numerus:'Sg.', answer:'nautae',    explanation:'Gen. Sg. der 1. Dekl. (m.!): nauta → nautae' },
+  { base:'nauta',    decl:1, kasus:'Akkusativ',  numerus:'Sg.', answer:'nautam',    explanation:'Akk. Sg.: nauta → nautam' },
+  // hora
+  { base:'hora',     decl:1, kasus:'Genitiv',    numerus:'Sg.', answer:'horae',     explanation:'Gen. Sg. der 1. Dekl.: hora → horae' },
+  { base:'hora',     decl:1, kasus:'Dativ',      numerus:'Sg.', answer:'horae',     explanation:'Dat. Sg. der 1. Dekl.: hora → horae' },
+  { base:'hora',     decl:1, kasus:'Akkusativ',  numerus:'Sg.', answer:'horam',     explanation:'Akk. Sg. der 1. Dekl.: hora → horam' },
+  { base:'hora',     decl:1, kasus:'Ablativ',    numerus:'Sg.', answer:'hora',      explanation:'Abl. Sg. der 1. Dekl.: wie Nom. Sg.' },
+  { base:'hora',     decl:1, kasus:'Genitiv',    numerus:'Pl.', answer:'horarum',   explanation:'Gen. Pl. der 1. Dekl.: hora → horarum' },
+  { base:'hora',     decl:1, kasus:'Dativ',      numerus:'Pl.', answer:'horis',     explanation:'Dat. Pl. der 1. Dekl.: hora → horis' },
+  { base:'hora',     decl:1, kasus:'Akkusativ',  numerus:'Pl.', answer:'horas',     explanation:'Akk. Pl. der 1. Dekl.: hora → horas' },
+  // filia
+  { base:'filia',    decl:1, kasus:'Genitiv',    numerus:'Sg.', answer:'filiae',    explanation:'Gen. Sg.: filia → filiae' },
+  { base:'filia',    decl:1, kasus:'Dativ',      numerus:'Sg.', answer:'filiae',    explanation:'Dat. Sg.: filia → filiae' },
+  { base:'filia',    decl:1, kasus:'Akkusativ',  numerus:'Sg.', answer:'filiam',    explanation:'Akk. Sg.: filia → filiam' },
+  { base:'filia',    decl:1, kasus:'Genitiv',    numerus:'Pl.', answer:'filiarum',  explanation:'Gen. Pl.: filia → filiarum' },
+  // fortuna
+  { base:'fortuna',  decl:1, kasus:'Genitiv',    numerus:'Sg.', answer:'fortunae',  explanation:'Gen. Sg.: fortuna → fortunae' },
+  { base:'fortuna',  decl:1, kasus:'Akkusativ',  numerus:'Sg.', answer:'fortunam',  explanation:'Akk. Sg.: fortuna → fortunam' },
+  { base:'fortuna',  decl:1, kasus:'Dativ',      numerus:'Pl.', answer:'fortunis',  explanation:'Dat. Pl.: fortuna → fortunis' },
+  { base:'fortuna',  decl:1, kasus:'Ablativ',    numerus:'Pl.', answer:'fortunis',  explanation:'Abl. Pl.: fortuna → fortunis' },
+  // 2. Deklination – mask.
+  { base:'servus',   decl:2, kasus:'Genitiv',    numerus:'Sg.', answer:'servi',     explanation:'Gen. Sg. der 2. Dekl.: servus → servi' },
+  { base:'servus',   decl:2, kasus:'Dativ',      numerus:'Sg.', answer:'servo',     explanation:'Dat. Sg. der 2. Dekl.: servus → servo' },
+  { base:'servus',   decl:2, kasus:'Akkusativ',  numerus:'Sg.', answer:'servum',    explanation:'Akk. Sg. der 2. Dekl.: servus → servum' },
+  { base:'servus',   decl:2, kasus:'Ablativ',    numerus:'Sg.', answer:'servo',     explanation:'Abl. Sg. der 2. Dekl.: servus → servo' },
+  { base:'servus',   decl:2, kasus:'Vokativ',    numerus:'Sg.', answer:'serve',     explanation:'Vok. Sg. der 2. Dekl.: servus → serve (auf -e!)' },
+  { base:'servus',   decl:2, kasus:'Nominativ',  numerus:'Pl.', answer:'servi',     explanation:'Nom. Pl. der 2. Dekl.: servus → servi' },
+  { base:'servus',   decl:2, kasus:'Genitiv',    numerus:'Pl.', answer:'servorum',  explanation:'Gen. Pl. der 2. Dekl.: servus → servorum' },
+  { base:'servus',   decl:2, kasus:'Akkusativ',  numerus:'Pl.', answer:'servos',    explanation:'Akk. Pl. der 2. Dekl.: servus → servos' },
+  { base:'dominus',  decl:2, kasus:'Dativ',      numerus:'Sg.', answer:'domino',    explanation:'Dat. Sg.: dominus → domino' },
+  { base:'dominus',  decl:2, kasus:'Genitiv',    numerus:'Pl.', answer:'dominorum', explanation:'Gen. Pl.: dominus → dominorum' },
+  // filius
+  { base:'filius',   decl:2, kasus:'Genitiv',    numerus:'Sg.', answer:'filii',     explanation:'Gen. Sg.: filius → filii' },
+  { base:'filius',   decl:2, kasus:'Dativ',      numerus:'Sg.', answer:'filio',     explanation:'Dat. Sg.: filius → filio' },
+  { base:'filius',   decl:2, kasus:'Akkusativ',  numerus:'Sg.', answer:'filium',    explanation:'Akk. Sg.: filius → filium' },
+  { base:'filius',   decl:2, kasus:'Vokativ',    numerus:'Sg.', answer:'fili',      explanation:'Vok. Sg.: filius → fili (auf -i, nicht -e!)' },
+  { base:'filius',   decl:2, kasus:'Nominativ',  numerus:'Pl.', answer:'filii',     explanation:'Nom. Pl.: filius → filii' },
+  // magister
+  { base:'magister', decl:2, kasus:'Genitiv',    numerus:'Sg.', answer:'magistri',  explanation:'Gen. Sg.: magister → magistri (Stamm magistr-)' },
+  { base:'magister', decl:2, kasus:'Akkusativ',  numerus:'Sg.', answer:'magistrum', explanation:'Akk. Sg.: magister → magistrum' },
+  { base:'magister', decl:2, kasus:'Dativ',      numerus:'Sg.', answer:'magistro',  explanation:'Dat. Sg.: magister → magistro' },
+  // oppidum
+  { base:'oppidum',  decl:2, kasus:'Genitiv',    numerus:'Sg.', answer:'oppidi',    explanation:'Gen. Sg.: oppidum → oppidi' },
+  { base:'oppidum',  decl:2, kasus:'Dativ',      numerus:'Sg.', answer:'oppido',    explanation:'Dat. Sg.: oppidum → oppido' },
+  { base:'oppidum',  decl:2, kasus:'Nominativ',  numerus:'Pl.', answer:'oppida',    explanation:'Nom. Pl. Neutrum: oppidum → oppida' },
+  { base:'oppidum',  decl:2, kasus:'Genitiv',    numerus:'Pl.', answer:'oppidorum', explanation:'Gen. Pl.: oppidum → oppidorum' },
+  // 2. Deklination – neutrum
+  { base:'bellum',   decl:2, kasus:'Genitiv',    numerus:'Sg.', answer:'belli',     explanation:'Gen. Sg. der 2. Dekl. (n.): bellum → belli' },
+  { base:'bellum',   decl:2, kasus:'Dativ',      numerus:'Sg.', answer:'bello',     explanation:'Dat. Sg.: bellum → bello' },
+  { base:'bellum',   decl:2, kasus:'Akkusativ',  numerus:'Sg.', answer:'bellum',    explanation:'Akk. Sg. Neutrum = Nom. Sg.: bellum' },
+  { base:'bellum',   decl:2, kasus:'Nominativ',  numerus:'Pl.', answer:'bella',     explanation:'Nom. Pl. Neutrum endet auf -a: bella' },
+  { base:'bellum',   decl:2, kasus:'Genitiv',    numerus:'Pl.', answer:'bellorum',  explanation:'Gen. Pl.: bellum → bellorum' },
+  // 3. Deklination
+  { base:'rex',      decl:3, kasus:'Genitiv',    numerus:'Sg.', answer:'regis',     explanation:'Gen. Sg. der 3. Dekl.: rex → regis (Stamm: reg-)' },
+  { base:'rex',      decl:3, kasus:'Dativ',      numerus:'Sg.', answer:'regi',      explanation:'Dat. Sg. der 3. Dekl.: rex → regi' },
+  { base:'rex',      decl:3, kasus:'Akkusativ',  numerus:'Sg.', answer:'regem',     explanation:'Akk. Sg. der 3. Dekl.: rex → regem' },
+  { base:'rex',      decl:3, kasus:'Ablativ',    numerus:'Sg.', answer:'rege',      explanation:'Abl. Sg. der 3. Dekl.: rex → rege' },
+  { base:'rex',      decl:3, kasus:'Nominativ',  numerus:'Pl.', answer:'reges',     explanation:'Nom. Pl. der 3. Dekl.: rex → reges' },
+  { base:'rex',      decl:3, kasus:'Genitiv',    numerus:'Pl.', answer:'regum',     explanation:'Gen. Pl. der 3. Dekl. (kons.): rex → regum' },
+  { base:'rex',      decl:3, kasus:'Dativ',      numerus:'Pl.', answer:'regibus',   explanation:'Dat. Pl. der 3. Dekl.: rex → regibus' },
+  { base:'urbs',     decl:3, kasus:'Genitiv',    numerus:'Sg.', answer:'urbis',     explanation:'Gen. Sg.: urbs → urbis (i-Stamm, Stamm urb-)' },
+  { base:'urbs',     decl:3, kasus:'Akkusativ',  numerus:'Sg.', answer:'urbem',     explanation:'Akk. Sg.: urbs → urbem' },
+  { base:'urbs',     decl:3, kasus:'Genitiv',    numerus:'Pl.', answer:'urbium',    explanation:'Gen. Pl. i-Stamm: urbs → urbium (auf -ium!)' },
+  { base:'urbs',     decl:3, kasus:'Dativ',      numerus:'Pl.', answer:'urbibus',   explanation:'Dat. Pl.: urbs → urbibus' },
+  { base:'miles',    decl:3, kasus:'Genitiv',    numerus:'Sg.', answer:'militis',   explanation:'Gen. Sg.: miles → militis (Stamm milit-)' },
+  { base:'miles',    decl:3, kasus:'Akkusativ',  numerus:'Sg.', answer:'militem',   explanation:'Akk. Sg.: miles → militem' },
+  { base:'miles',    decl:3, kasus:'Nominativ',  numerus:'Pl.', answer:'milites',   explanation:'Nom. Pl.: miles → milites' },
+  // dux
+  { base:'dux',      decl:3, kasus:'Genitiv',    numerus:'Sg.', answer:'ducis',     explanation:'Gen. Sg. der 3. Dekl.: dux → ducis (Stamm duc-)' },
+  { base:'dux',      decl:3, kasus:'Dativ',      numerus:'Sg.', answer:'duci',      explanation:'Dat. Sg.: dux → duci' },
+  { base:'dux',      decl:3, kasus:'Akkusativ',  numerus:'Sg.', answer:'ducem',     explanation:'Akk. Sg.: dux → ducem' },
+  { base:'dux',      decl:3, kasus:'Ablativ',    numerus:'Sg.', answer:'duce',      explanation:'Abl. Sg.: dux → duce' },
+  { base:'dux',      decl:3, kasus:'Nominativ',  numerus:'Pl.', answer:'duces',     explanation:'Nom. Pl.: dux → duces' },
+  { base:'dux',      decl:3, kasus:'Genitiv',    numerus:'Pl.', answer:'ducum',     explanation:'Gen. Pl.: dux → ducum' },
+  // pater
+  { base:'pater',    decl:3, kasus:'Genitiv',    numerus:'Sg.', answer:'patris',    explanation:'Gen. Sg.: pater → patris (Stamm patr-)' },
+  { base:'pater',    decl:3, kasus:'Dativ',      numerus:'Sg.', answer:'patri',     explanation:'Dat. Sg.: pater → patri' },
+  { base:'pater',    decl:3, kasus:'Akkusativ',  numerus:'Sg.', answer:'patrem',    explanation:'Akk. Sg.: pater → patrem' },
+  { base:'pater',    decl:3, kasus:'Ablativ',    numerus:'Sg.', answer:'patre',     explanation:'Abl. Sg.: pater → patre' },
+  // tempus
+  { base:'tempus',   decl:3, kasus:'Genitiv',    numerus:'Sg.', answer:'temporis',  explanation:'Gen. Sg.: tempus → temporis (Stamm tempor-)' },
+  { base:'tempus',   decl:3, kasus:'Dativ',      numerus:'Sg.', answer:'tempori',   explanation:'Dat. Sg.: tempus → tempori' },
+  { base:'tempus',   decl:3, kasus:'Ablativ',    numerus:'Sg.', answer:'tempore',   explanation:'Abl. Sg.: tempus → tempore' },
+  { base:'tempus',   decl:3, kasus:'Nominativ',  numerus:'Pl.', answer:'tempora',   explanation:'Nom. Pl. Neutrum: tempus → tempora' },
+  { base:'tempus',   decl:3, kasus:'Genitiv',    numerus:'Pl.', answer:'temporum',  explanation:'Gen. Pl.: tempus → temporum' },
+  // lex
+  { base:'lex',      decl:3, kasus:'Genitiv',    numerus:'Sg.', answer:'legis',     explanation:'Gen. Sg.: lex → legis (Stamm leg-)' },
+  { base:'lex',      decl:3, kasus:'Akkusativ',  numerus:'Sg.', answer:'legem',     explanation:'Akk. Sg.: lex → legem' },
+  { base:'lex',      decl:3, kasus:'Dativ',      numerus:'Sg.', answer:'legi',      explanation:'Dat. Sg.: lex → legi' },
+  { base:'lex',      decl:3, kasus:'Genitiv',    numerus:'Pl.', answer:'legum',     explanation:'Gen. Pl.: lex → legum' },
+  // 4. Deklination
+  { base:'manus',    decl:4, kasus:'Genitiv',    numerus:'Sg.', answer:'manus',     explanation:'Gen. Sg. der 4. Dekl.: manus → manus (wie Nom.!)' },
+  { base:'manus',    decl:4, kasus:'Dativ',      numerus:'Sg.', answer:'manui',     explanation:'Dat. Sg. der 4. Dekl.: manus → manui' },
+  { base:'manus',    decl:4, kasus:'Akkusativ',  numerus:'Sg.', answer:'manum',     explanation:'Akk. Sg. der 4. Dekl.: manus → manum' },
+  { base:'manus',    decl:4, kasus:'Ablativ',    numerus:'Sg.', answer:'manu',      explanation:'Abl. Sg. der 4. Dekl.: manus → manu' },
+  { base:'manus',    decl:4, kasus:'Genitiv',    numerus:'Pl.', answer:'manuum',    explanation:'Gen. Pl. der 4. Dekl.: manus → manuum' },
+  { base:'manus',    decl:4, kasus:'Dativ',      numerus:'Pl.', answer:'manibus',   explanation:'Dat. Pl. der 4. Dekl.: manus → manibus' },
+  { base:'exercitus',decl:4, kasus:'Genitiv',    numerus:'Sg.', answer:'exercitus', explanation:'Gen. Sg. der 4. Dekl.: exercitus → exercitus' },
+  { base:'exercitus',decl:4, kasus:'Dativ',      numerus:'Sg.', answer:'exercitui', explanation:'Dat. Sg.: exercitus → exercitui' },
+  { base:'exercitus',decl:4, kasus:'Akkusativ',  numerus:'Sg.', answer:'exercitum', explanation:'Akk. Sg.: exercitus → exercitum' },
+  { base:'exercitus',decl:4, kasus:'Ablativ',    numerus:'Sg.', answer:'exercitu',  explanation:'Abl. Sg.: exercitus → exercitu' },
+  // fructus
+  { base:'fructus',  decl:4, kasus:'Genitiv',    numerus:'Sg.', answer:'fructus',   explanation:'Gen. Sg. der 4. Dekl.: fructus → fructus (wie Nom.!)' },
+  { base:'fructus',  decl:4, kasus:'Dativ',      numerus:'Sg.', answer:'fructui',   explanation:'Dat. Sg.: fructus → fructui' },
+  { base:'fructus',  decl:4, kasus:'Akkusativ',  numerus:'Sg.', answer:'fructum',   explanation:'Akk. Sg.: fructus → fructum' },
+  { base:'fructus',  decl:4, kasus:'Ablativ',    numerus:'Sg.', answer:'fructu',    explanation:'Abl. Sg.: fructus → fructu' },
+  { base:'fructus',  decl:4, kasus:'Genitiv',    numerus:'Pl.', answer:'fructuum',  explanation:'Gen. Pl. der 4. Dekl.: fructus → fructuum' },
+  // 5. Deklination
+  { base:'res',      decl:5, kasus:'Genitiv',    numerus:'Sg.', answer:'rei',       explanation:'Gen. Sg. der 5. Dekl.: res → rei' },
+  { base:'res',      decl:5, kasus:'Dativ',      numerus:'Sg.', answer:'rei',       explanation:'Dat. Sg. der 5. Dekl.: res → rei (= Gen. Sg.!)' },
+  { base:'res',      decl:5, kasus:'Akkusativ',  numerus:'Sg.', answer:'rem',       explanation:'Akk. Sg. der 5. Dekl.: res → rem' },
+  { base:'res',      decl:5, kasus:'Ablativ',    numerus:'Sg.', answer:'re',        explanation:'Abl. Sg. der 5. Dekl.: res → re' },
+  { base:'res',      decl:5, kasus:'Genitiv',    numerus:'Pl.', answer:'rerum',     explanation:'Gen. Pl. der 5. Dekl.: res → rerum' },
+  { base:'res',      decl:5, kasus:'Dativ',      numerus:'Pl.', answer:'rebus',     explanation:'Dat. Pl. der 5. Dekl.: res → rebus' },
+  { base:'dies',     decl:5, kasus:'Genitiv',    numerus:'Sg.', answer:'diei',      explanation:'Gen. Sg.: dies → diei' },
+  { base:'dies',     decl:5, kasus:'Akkusativ',  numerus:'Sg.', answer:'diem',      explanation:'Akk. Sg.: dies → diem' },
+  { base:'dies',     decl:5, kasus:'Ablativ',    numerus:'Sg.', answer:'die',       explanation:'Abl. Sg.: dies → die' },
+  { base:'dies',     decl:5, kasus:'Genitiv',    numerus:'Pl.', answer:'dierum',    explanation:'Gen. Pl.: dies → dierum' },
+  { base:'spes',     decl:5, kasus:'Genitiv',    numerus:'Sg.', answer:'spei',      explanation:'Gen. Sg.: spes → spei' },
+  { base:'spes',     decl:5, kasus:'Akkusativ',  numerus:'Sg.', answer:'spem',      explanation:'Akk. Sg.: spes → spem' },
+  { base:'spes',     decl:5, kasus:'Ablativ',    numerus:'Sg.', answer:'spe',       explanation:'Abl. Sg.: spes → spe' },
+  // fides
+  { base:'fides',    decl:5, kasus:'Genitiv',    numerus:'Sg.', answer:'fidei',     explanation:'Gen. Sg. der 5. Dekl.: fides → fidei' },
+  { base:'fides',    decl:5, kasus:'Dativ',      numerus:'Sg.', answer:'fidei',     explanation:'Dat. Sg. der 5. Dekl.: fides → fidei (= Gen. Sg.!)' },
+  { base:'fides',    decl:5, kasus:'Akkusativ',  numerus:'Sg.', answer:'fidem',     explanation:'Akk. Sg.: fides → fidem' },
+  { base:'fides',    decl:5, kasus:'Ablativ',    numerus:'Sg.', answer:'fide',      explanation:'Abl. Sg.: fides → fide' },
+  // acies
+  { base:'acies',    decl:5, kasus:'Genitiv',    numerus:'Sg.', answer:'aciei',     explanation:'Gen. Sg. der 5. Dekl.: acies → aciei' },
+  { base:'acies',    decl:5, kasus:'Akkusativ',  numerus:'Sg.', answer:'aciem',     explanation:'Akk. Sg.: acies → aciem' },
+  { base:'acies',    decl:5, kasus:'Ablativ',    numerus:'Sg.', answer:'acie',      explanation:'Abl. Sg.: acies → acie' },
+  { base:'acies',    decl:5, kasus:'Genitiv',    numerus:'Pl.', answer:'acierum',   explanation:'Gen. Pl. der 5. Dekl.: acies → acierum' },
+];
+
+// ============================================================
+// State
+let currentMode = 1;
+let declFilter = 'all';
+let quizQueue = [];
+let quizIndex = 0;
+let score = 0;
+let totalQ = 0;
+let streak = 0;
+let answered = false;
+const QUIZ_LENGTH = 15;
+
+// current selections
+let selKasusNum = new Set();
+let selGenus = new Set();
+
+// ============================================================
+// NAVIGATION
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ============================================================
+// TABLES
+function showTable(n, btn) {
+  document.querySelectorAll('.decl-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable(n);
+}
+
+function renderTable(n) {
+  const d = DECLENSIONS[n];
+  const hdrs = d.headers.map((h,i) => `<th>${h}</th>`).join('');
+  const rows = d.rows.map(r => {
+    const cells = r.map((c,i) => {
+      if(i===0) return `<td>${c}</td>`;
+      return `<td class="${i<=Math.ceil(r.length/2)?'sg':'pl'}">${c}</td>`;
+    }).join('');
+    return `<tr>${cells}</tr>`;
+  }).join('');
+  document.getElementById('tableContent').innerHTML = `
+    <div style="margin-bottom:10px">
+      <div style="font-family:'Cinzel',serif;font-size:0.9rem;color:var(--gold);margin-bottom:4px">${d.name}</div>
+      <div style="font-size:0.78rem;color:var(--parchment-dark)">${d.example}</div>
+    </div>
+    <div class="table-wrap">
+      <table><thead><tr>${hdrs}</tr></thead><tbody>${rows}</tbody></table>
+    </div>
+    <div style="margin-top:12px;font-size:0.78rem;background:rgba(240,192,64,0.08);border-left:3px solid var(--gold-dark);padding:10px 12px;border-radius:0 8px 8px 0;color:var(--parchment)">
+      💡 ${d.note}
+    </div>
+    ${n>1?`<div style="margin-top:8px;font-size:0.72rem;color:var(--parchment-dark);text-align:center">🔴 Singular &nbsp;&nbsp; 🔵 Plural</div>`:''}
+  `;
+}
+
+function showDeclension(n) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const navBtns = document.querySelectorAll('.nav-btn');
+  navBtns[1].classList.add('active');
+  document.getElementById('tables').classList.add('active');
+  const tabs = document.querySelectorAll('.decl-tab');
+  tabs.forEach(t=>t.classList.remove('active'));
+  tabs[n-1].classList.add('active');
+  renderTable(n);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+renderTable(1);
+
+// ============================================================
+// QUIZ SETUP
+function selectMode(m, el) {
+  currentMode = m;
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleDeclFilter(v, btn) {
+  document.querySelectorAll('#quiz .decl-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  declFilter = v;
+}
+
+function buildQueue() {
+  function shuffle(arr) {
+    for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+    return arr;
+  }
+  if(currentMode === 3) {
+    // Gemischt: je Hälfte aus beiden Quellen
+    let p1 = QUIZ_WORDS.filter(w => declFilter==='all' || w.decl===Number(declFilter));
+    let p2 = FORM_WORDS.filter(w => declFilter==='all' || w.decl===Number(declFilter));
+    if(p1.length < 3) p1 = [...QUIZ_WORDS];
+    if(p2.length < 3) p2 = [...FORM_WORDS];
+    const half = Math.floor(QUIZ_LENGTH / 2);
+    const from1 = shuffle([...p1]).slice(0, half).map(w => ({...w, _type:'bestimmen'}));
+    const from2 = shuffle([...p2]).slice(0, QUIZ_LENGTH - half).map(w => ({...w, _type:'bilden'}));
+    return shuffle([...from1, ...from2]);
+  }
+  const source = (currentMode === 2) ? FORM_WORDS : QUIZ_WORDS;
+  let pool = source.filter(w => declFilter==='all' || w.decl===Number(declFilter));
+  if(pool.length < 5) pool = [...source];
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  return pool.slice(0, QUIZ_LENGTH).map(w => ({...w, _type: currentMode===2?'bilden':'bestimmen'}));
+}
+
+function startQuiz() {
+  quizQueue = buildQueue();
+  quizIndex = 0; score = 0; totalQ = 0; streak = 0;
+  document.getElementById('quizSetup').style.display = 'none';
+  document.getElementById('quizPlay').style.display = 'block';
+  document.getElementById('resultScreen').classList.remove('show');
+  showQuestion();
+}
+
+function showQuestion() {
+  if(quizIndex >= quizQueue.length) { showResult(); return; }
+  answered = false;
+  const item = quizQueue[quizIndex];
+  document.getElementById('feedbackBox').classList.remove('show','ok','nope');
+  document.getElementById('nextBtn').classList.remove('show');
+  document.getElementById('progressBar').style.width = ((quizIndex/quizQueue.length)*100)+'%';
+  document.getElementById('scoreBox').textContent = `✨ ${score} / ${totalQ}`;
+  document.getElementById('streakBadge').textContent = `🔥 ${streak}`;
+
+  if(item._type === 'bilden') {
+    // Form bilden: zeige Grundform + Aufgabe, Nutzer tippt Antwort
+    document.querySelector('#quizWordCard .word-label').textContent = 'BILDE DIE FORM';
+    document.getElementById('quizWord').textContent = item.base;
+    document.getElementById('quizHint').textContent = `${item.decl}. Deklination`;
+    document.getElementById('quizQuestion').textContent = `${item.kasus} ${item.numerus} von »${item.base}«?`;
+    document.getElementById('selectorCard').style.display = 'none';
+    document.getElementById('formCard').style.display = 'block';
+    const inp = document.getElementById('formInput');
+    inp.value = '';
+    document.getElementById('checkFormBtn').disabled = true;
+    setTimeout(() => inp.focus(), 80);
+  } else {
+    // Kasus bestimmen
+    document.querySelector('#quizWordCard .word-label').textContent = 'BESTIMME DIE FORM';
+    document.getElementById('quizWord').textContent = item.word;
+    document.getElementById('quizHint').textContent = `${item.decl}. Deklination`;
+    document.getElementById('quizQuestion').textContent = 'Wähle Kasus (Sg. oder Pl.) und Genus!';
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('selectorCard').style.display = 'block';
+    resetSelectors();
+  }
+}
+
+// ============================================================
+// MULTI-SELECT QUIZ LOGIC
+// selKasusNum = Set of "Kasus|Num" strings (e.g. "Nominativ|Sg.")
+// selGenus    = Set of genus strings
+function toggleSel(btn) {
+  if(btn.disabled) return;
+  btn.classList.toggle('selected');
+  const g = btn.dataset.group;
+  const v = btn.dataset.val;
+  if(g === 'kasus') {
+    const num = btn.dataset.num;
+    const key = v + '|' + num;
+    selKasusNum.has(key) ? selKasusNum.delete(key) : selKasusNum.add(key);
+  }
+  if(g === 'genus') selGenus.has(v) ? selGenus.delete(v) : selGenus.add(v);
+  const canCheck = selKasusNum.size > 0 && selGenus.size > 0;
+  document.getElementById('checkBtn').disabled = !canCheck;
+}
+
+function resetSelectors() {
+  selKasusNum = new Set(); selGenus = new Set();
+  document.querySelectorAll('.sel-btn').forEach(b => {
+    b.classList.remove('selected','correct-highlight','wrong-highlight','missed-highlight');
+    b.disabled = false;
+  });
+  document.getElementById('checkBtn').disabled = true;
+  document.getElementById('checkBtn').style.display = 'block';
+}
+
+function checkMultiAnswer() {
+  if(answered) return;
+  answered = true;
+  totalQ++;
+  const item = quizQueue[quizIndex];
+
+  // Build set of correct kasus|num combos
+  const correctPairs = new Set();
+  item.kasus.forEach(k => item.numerus.forEach(n => correctPairs.add(k + '|' + n)));
+
+  // Every selected combo must be correct, AND at least one correct combo selected
+  const kasusNumOk = selKasusNum.size > 0 &&
+    [...selKasusNum].every(p => correctPairs.has(p));
+  const genusOk = selGenus.size > 0 && [...selGenus].every(g => item.genus.includes(g));
+  const isCorrect = kasusNumOk && genusOk;
+
+  // Highlight buttons
+  document.querySelectorAll('.sel-btn').forEach(b => {
+    b.disabled = true;
+    const g = b.dataset.group;
+    const v = b.dataset.val;
+    const isSelected = b.classList.contains('selected');
+    let isCorrectVal = false;
+    if(g === 'kasus') {
+      const num = b.dataset.num;
+      isCorrectVal = correctPairs.has(v + '|' + num);
+    } else if(g === 'genus') {
+      isCorrectVal = item.genus.includes(v);
+    }
+    if(isSelected && isCorrectVal) b.classList.add('correct-highlight');
+    else if(isSelected && !isCorrectVal) b.classList.add('wrong-highlight');
+    else if(!isSelected && isCorrectVal) b.classList.add('missed-highlight');
+  });
+
+  if(isCorrect) { score++; streak++; }
+  else { streak = 0; }
+
+  const correctKasus = item.kasus.join(' / ');
+  const correctNumerus = item.numerus.join(' / ');
+  const correctGenus = item.genus.join(' / ');
+
+  const fb = document.getElementById('feedbackBox');
+  document.getElementById('feedbackTitle').textContent = isCorrect ? '✅ Richtig!' : '❌ Nicht ganz!';
+  document.getElementById('feedbackText').innerHTML =
+    `<span style="opacity:0.8">Korrekte Antwort:</span> <strong style="color:var(--gold)">${correctKasus} · ${correctNumerus} · ${correctGenus}</strong><br><span style="opacity:0.75;font-size:0.82rem">${item.explanation}</span>` +
+    (!isCorrect ? `<br><span style="font-size:0.78rem;color:#FFD090;margin-top:4px;display:block">🟡 = Wäre richtig gewesen &nbsp; 🟢 = Deine richtige Auswahl &nbsp; 🔴 = Falsch ausgewählt</span>` : '');
+  fb.classList.remove('ok','nope');
+  fb.classList.add(isCorrect?'ok':'nope');
+  fb.classList.add('show');
+  document.getElementById('checkBtn').style.display = 'none';
+  document.getElementById('nextBtn').classList.add('show');
+  document.getElementById('scoreBox').textContent = `✨ ${score} / ${totalQ}`;
+  document.getElementById('streakBadge').textContent = `🔥 ${streak}`;
+}
+
+function checkFormAnswer() {
+  if(answered) return;
+  answered = true;
+  totalQ++;
+  const item = quizQueue[quizIndex];
+  const userInput = document.getElementById('formInput').value.trim().toLowerCase();
+  const correct = item.answer.toLowerCase();
+  const isCorrect = userInput === correct;
+
+  if(isCorrect) { score++; streak++; }
+  else { streak = 0; }
+
+  // Style the input field
+  const inp = document.getElementById('formInput');
+  inp.disabled = true;
+  inp.style.border = isCorrect
+    ? '2px solid var(--laurel-light)'
+    : '2px solid var(--terracotta-light)';
+  inp.style.background = isCorrect
+    ? 'rgba(74,122,58,0.2)'
+    : 'rgba(192,82,42,0.2)';
+  document.getElementById('checkFormBtn').style.display = 'none';
+
+  const fb = document.getElementById('feedbackBox');
+  document.getElementById('feedbackTitle').textContent = isCorrect ? '✅ Richtig!' : '❌ Nicht ganz!';
+  document.getElementById('feedbackText').innerHTML = isCorrect
+    ? `<span style="opacity:0.85">${item.explanation}</span>`
+    : `<span style="opacity:0.8">Richtige Antwort:</span> <strong style="color:var(--gold);font-family:'Cinzel',serif;font-size:1.1rem"> ${item.answer}</strong>`
+      + `<br><span style="font-size:0.82rem;opacity:0.75">${item.explanation}</span>`;
+  fb.classList.remove('ok','nope');
+  fb.classList.add(isCorrect ? 'ok' : 'nope');
+  fb.classList.add('show');
+  document.getElementById('nextBtn').classList.add('show');
+  document.getElementById('scoreBox').textContent = `✨ ${score} / ${totalQ}`;
+  document.getElementById('streakBadge').textContent = `🔥 ${streak}`;
+}
+
+
+function nextQuestion() {
+  // Reset form input state for next round
+  const inp = document.getElementById('formInput');
+  inp.disabled = false;
+  inp.style.border = '';
+  inp.style.background = '';
+  document.getElementById('checkFormBtn').style.display = 'block';
+  quizIndex++;
+  showQuestion();
+}
+
+function showResult() {
+  document.getElementById('progressBar').style.width = '100%';
+  const pct = Math.round((score/totalQ)*100);
+  const rs = document.getElementById('resultScreen');
+  const emojis = pct>=90?'🏆':pct>=70?'🥇':pct>=50?'🥈':'📚';
+  const stars = pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':pct>=50?'⭐':'';
+  const msgs = pct>=90?'Hervorragend! Du bist ein echter Latein-Meister! 🦁':
+               pct>=70?'Sehr gut! Noch ein bisschen üben und du hast es drauf!':
+               pct>=50?'Gut gemacht! Die Grundlagen sitzen – weiter üben!':
+               'Nicht aufgeben! Schau dir die Tabellen nochmal an und versuchs erneut!';
+  document.getElementById('resultEmoji').textContent = emojis;
+  document.getElementById('resultStars').textContent = stars;
+  document.getElementById('resultScore').textContent = `${score} / ${totalQ}`;
+  document.getElementById('resultMsg').textContent = msgs;
+  rs.classList.add('show');
+  document.getElementById('nextBtn').classList.remove('show');
+  document.getElementById('feedbackBox').classList.remove('show');
+  document.getElementById('selectorCard').style.display = 'none';
+  document.getElementById('formCard').style.display = 'none';
+  document.getElementById('quizWordCard').style.display = 'none';
+}
+
+function resetQuiz() {
+  document.getElementById('quizPlay').style.display = 'none';
+  document.getElementById('quizSetup').style.display = 'block';
+  document.getElementById('resultScreen').classList.remove('show');
+  document.getElementById('selectorCard').style.display = 'block';
+  document.getElementById('formCard').style.display = 'none';
+  document.getElementById('quizWordCard').style.display = 'block';
+  const inp = document.getElementById('formInput');
+  inp.value = ''; inp.disabled = false;
+  inp.style.border = ''; inp.style.background = '';
+  document.getElementById('checkFormBtn').style.display = 'block';
+}
+</script>
+</body>
+</html>
